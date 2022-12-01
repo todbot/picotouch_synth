@@ -1,3 +1,6 @@
+# picotouchsynth_hw_test1.py -- test picotouchsynth 23 Nov 2022 PCB
+# 30 Nov 2022 - @todbot / Tod Kurt
+# Part of https://github.com/todbot/picotouchsynth/
 
 import time
 import board
@@ -5,7 +8,6 @@ import touchio
 import neopixel
 import rainbowio
 from adafruit_debouncer import Debouncer
-
 
 touch_pins = (
     board.GP0, board.GP1, board.GP2, board.GP3, board.GP4, board.GP5,
@@ -19,8 +21,6 @@ disp_scl_pin = board.GP21
 midi_pin = board.GP17
 audio_pin = board.GP28
 
-touch_threshold_adjust = 500
-
 touch_ins = []
 touchs = []
 for pin in touch_pins:
@@ -33,11 +33,10 @@ for pin in touch_pins:
 num_leds = 13
 leds = neopixel.NeoPixel(led_pin, num_leds, brightness=0.2, auto_write=True)
 
-print("\n----------")
-print("picotouchsynth hello")
+print("\n----------\npicotouchsynth hello")
 
 for i in range(255):
-    leds.fill( rainbowio.colorwheel(i) )
+    leds.fill( rainbowio.colorwheel(i) )  # a little celebratory show
     time.sleep(0.01)
 leds.fill(0x111111)
 
