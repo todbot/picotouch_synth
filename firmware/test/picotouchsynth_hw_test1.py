@@ -6,6 +6,7 @@ import neopixel
 import rainbowio
 from adafruit_debouncer import Debouncer
 
+
 touch_pins = (
     board.GP0, board.GP1, board.GP2, board.GP3, board.GP4, board.GP5,
     board.GP6, board.GP7, board.GP8, board.GP9, board.GP10, board.GP11,
@@ -29,17 +30,26 @@ for pin in touch_pins:
     touch_ins.append(touchin)
     touchs.append( Debouncer(touchin) )
 
+num_leds = 13
+leds = neopixel.NeoPixel(led_pin, num_leds, brightness=0.2, auto_write=True)
 
 print("\n----------")
 print("picotouchsynth hello")
+
+for i in range(255):
+    leds.fill( rainbowio.colorwheel(i) )
+    time.sleep(0.01)
+leds.fill(0x111111)
+
 while True:
     for i in range(len(touchs)):
         touch = touchs[i]
         touch.update()
         if touch.rose:
             print("press",i)
+            leds[i] = rainbowio.colorwheel( time.monotonic()*50 )
             #midi.send( NoteOn(midi_base_note + i, midi_velocity) )
         if touch.fell:
+            leds[i] = 0x111111
             print("release",i)
             #midi.send( NoteOff(midi_base_note + i, midi_velocity) )
-
