@@ -28,8 +28,9 @@
 
 #include <Adafruit_TinyUSB.h>
 #include <MIDI.h>
-Adafruit_USBD_MIDI usb_midi;
-MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, MIDIusb);
+#include <Adafruit_NeoPixel.h>
+
+#include "TouchyTouch.h"
 
 // SETTINGS
 //int portamento_time = 50;  // milliseconds
@@ -57,6 +58,23 @@ uint8_t midi_ccs[] = {
 };
 uint8_t mod_vals[ CC_COUNT ];
 
+// how picotouchsynth board is set up
+const int num_touch = 16;
+const int num_leds = 13;
+const int touch_pins[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 };
+const int led_pin      = 16;
+const int midi_pin     = 17;
+const int disp_sda_pin = 20;
+const int disp_scl_pin = 21;
+const int audio_pin    = 28; // edit Mozzi/AudioConfigRP2040.h to set this
+
+Adafruit_USBD_MIDI usb_midi;
+MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, MIDIusb);
+
+TouchyTouch touches[num_touch];
+Adafruit_NeoPixel leds = Adafruit_NeoPixel(num_leds, led_pin, NEO_GRB + NEO_KHZ800);
+
+
 // Oscillators
 Oscil<SAW_ANALOGUE512_NUM_CELLS, AUDIO_RATE> aOsc1(SAW_ANALOGUE512_DATA);
 Oscil<SAW_ANALOGUE512_NUM_CELLS, AUDIO_RATE> aOsc2(SAW_ANALOGUE512_DATA);
@@ -69,18 +87,41 @@ ADSR <CONTROL_RATE, CONTROL_RATE> envelope;
 Portamento <CONTROL_RATE> portamento;
 LowPassFilter lpf;
 
-#include "TouchyTouch.h"
-
-const int num_touch = 16;
-const int touch_pins[num_touch] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 };
-
-TouchyTouch touches[num_touch];
 
 //
-// core1 is for UI
+// core1 is for UI and MIDI
 //
+
+uint8_t fade_amount = 1;
+
+// fade a color by an amount
+uint32_t fadeToBlackBy(uint32_t c, uint8_t amount)
+{
+  uint8_t r = (uint8_t)(c >> 16);
+  uint8_t g = (uint8_t)(c >>  8);
+  uint8_t b = (uint8_t)c;
+  // fade to black by n
+  r = (r>amount) ? r - amount : 0;
+  g = (g>amount) ? g - amount : 0;
+  b = (b>amount) ? b - amount : 0;
+  return (r << 16) | (g << 8) | b;
+}
 
 void setup1() {
+  MIDIusb.begin(MIDI_CHANNEL_OMNI);   // Initiate MIDI communications, listen to all channels
+  MIDIusb.turnThruOff();    // turn off echo
+
+  // LEDs
+  leds.begin();
+  leds.setBrightness(51); // 0.2
+  leds.show(); // off
+  for( int i=0; i < num_leds; i++ ) {
+    uint32_t newcolor = leds.ColorHSV(i*255*20);
+    leds.setPixelColor(i, newcolor);
+  }
+  leds.show();
+
+  // Touch buttons
   for(int i=0; i<num_touch; i++) {
     touches[i] = TouchyTouch();
     touches[i].begin( touch_pins[i] );
@@ -90,6 +131,16 @@ void setup1() {
 }
 
 void loop1() {
+  handleMIDI();
+
+  /* // LED fading fade all LEDS by same amount */
+  /* for ( int i = 0; i < num_Leds; i++) { */
+  /*   uint32_t c = leds.getPixelColor(i); */
+  /*   c = fadeToBlackBy(c, fade_amount); */
+  /*   leds.setPixelColor(i, c); */
+  /* } */
+
+  // key handling
   for( int i=0; i<num_touch; i++) {
     touches[i].update();
     //Serial.printf("touch %d %d %d\n", i, touches[i].threshold, touches[i].raw_val_last);
@@ -132,9 +183,6 @@ void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
 
-  MIDIusb.begin(MIDI_CHANNEL_OMNI);   // Initiate MIDI communications, listen to all channels
-  MIDIusb.turnThruOff();    // turn off echo
-
   startMozzi(CONTROL_RATE);
 
   envelope.setReleaseLevel(0);
@@ -147,6 +195,7 @@ void loop() {
   audioHook();
 }
 
+
 //
 void handleNoteOn(byte channel, byte note, byte velocity) {
   #if DEBUG_MIDI
@@ -155,6 +204,9 @@ void handleNoteOn(byte channel, byte note, byte velocity) {
   digitalWrite(LED_BUILTIN,HIGH);
   portamento.start(note);
   envelope.noteOn();
+
+  leds.setPixelColor( (note%12)+1 , leds.ColorHSV(millis()*10,255,255) );
+  leds.show();
 }
 
 //
@@ -164,6 +216,8 @@ void handleNoteOff(byte channel, byte note, byte velocity) {
   #endif
   digitalWrite(LED_BUILTIN,LOW);
   envelope.noteOff();
+  leds.setPixelColor( (note%12)+1, leds.ColorHSV(0,0,0) );
+  leds.show();
 }
 
 //
@@ -256,7 +310,7 @@ byte envgain;  // do envelope in updateControl() instead of in updateAudio()
 
 // mozzi function, called at CONTROL_RATE times per second
 void updateControl() {
-  handleMIDI();
+  //handleMIDI();
 
   // map the lpf modulation into the filter range (0-255), corresponds with 0-8191Hz, kFilterMod runs -128-127
   //uint8_t cutoff_freq = cutoff + (mod_amount * (kFilterMod.next()/2));
