@@ -1,16 +1,17 @@
 /**
- * monosynth1 wubwubwub synth using LowPassFilter
+ * monosynth1.ino - picotouchsynth wubwubwub synth using LowPassFilter
  * based MozziScout "mozziscout_monosynth1"
  *
- * Responds to Serial (DIN) MIDI In
+ * Responds to USB MIDI too
  *
- *  @todbot 3 Jan 2021
+ * @todbot 1 Dec 2022
+ *
  **/
 
 
 // Mozzi's controller update rate, seems to have issues at 1024
 // If slower than 512 can't get all MIDI from Live
-#define CONTROL_RATE 512 
+#define CONTROL_RATE 512
 // set DEBUG_MIDI 1 to show CCs received in Serial Monitor
 #define DEBUG_MIDI 1
 
@@ -30,12 +31,12 @@
 Adafruit_USBD_MIDI usb_midi;
 MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, MIDIusb);
 
-
 // SETTINGS
 //int portamento_time = 50;  // milliseconds
 //int env_release_time = 1000; // milliseconds
 byte sound_mode = 0; // patch number / program change
 bool retrig_lfo = true;
+int midi_base_note = 48;  // for touch keyboard
 
 enum KnownCCs {
   Modulation=0,
@@ -56,56 +57,75 @@ uint8_t midi_ccs[] = {
 };
 uint8_t mod_vals[ CC_COUNT ];
 
-//struct MySettings : public MIDI_NAMESPACE::DefaultSettings {
-//  static const bool Use1ByteParsing = false; // Allow MIDI.read to handle all received data in one go
-//  static const long BaudRate = 31250;        // Doesn't build without this...
-//};
-//MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial1, MIDI, MySettings); // for USB-based SAMD
-//MIDI_CREATE_DEFAULT_INSTANCE();
-
-//
+// Oscillators
 Oscil<SAW_ANALOGUE512_NUM_CELLS, AUDIO_RATE> aOsc1(SAW_ANALOGUE512_DATA);
 Oscil<SAW_ANALOGUE512_NUM_CELLS, AUDIO_RATE> aOsc2(SAW_ANALOGUE512_DATA);
-
+// Filter LFO
 Oscil<COS2048_NUM_CELLS, CONTROL_RATE> kFilterMod(COS2048_DATA); // filter mod
-
+// Amplitude envelope
 //ADSR <CONTROL_RATE, AUDIO_RATE> envelope;
 ADSR <CONTROL_RATE, CONTROL_RATE> envelope;
 
 Portamento <CONTROL_RATE> portamento;
 LowPassFilter lpf;
 
-#include "FakeyTouch.h"
+#include "TouchyTouch.h"
 
 const int num_touch = 16;
 const int touch_pins[num_touch] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 };
 
-FakeyTouch touches[num_touch];
+TouchyTouch touches[num_touch];
 
-//const int touchpin_F = 0; // GP16
-//FakeyTouch touchF = FakeyTouch( touchpin_F );
+//
+// core1 is for UI
+//
 
 void setup1() {
   for(int i=0; i<num_touch; i++) {
-    touches[i] = FakeyTouch( touch_pins[i] );
-    touches[i].begin();
+    touches[i] = TouchyTouch();
+    touches[i].begin( touch_pins[i] );
+    touches[i].threshold += 200;
   }
-  touches[0].threshold = touches[0].threshold + 1000;
+  touches[0].threshold += 1000; // mode button is more sensitive
 }
 
 void loop1() {
-  for( int i=0; i<num_touch; i++) { 
-    if( touches[i].isTouched() ) { 
-      Serial.printf("touch %d %d %d\n", i, touches[i].threshold, touches[i].raw_val_last);
+  for( int i=0; i<num_touch; i++) {
+    touches[i].update();
+    //Serial.printf("touch %d %d %d\n", i, touches[i].threshold, touches[i].raw_val_last);
+
+    if( touches[i].rose() ) {
+      Serial.printf("pressed %d\n", i);
+      if( i==0 ) { // mode button
+      }
+      else if( i > 0 && i < 13 ) { // notes
+        handleNoteOn(0, midi_base_note + i - 1, 100 );
+      }
+      else if( i== 13 ) { // up
+        midi_base_note += 12;
+      }
+      else if( i== 14 ) { // down
+        midi_base_note -= 12;
+      }
+      else if( i== 15 ) { // select
+        sound_mode = (sound_mode + 1) % 3;
+        handleProgramChange(sound_mode);
+      }
+    }
+
+    if( touches[i].fell() ) {
+      Serial.printf("released %d\n", i);
+      if( i > 0 && i < 13 ) {
+        handleNoteOff(0, midi_base_note + i - 1, 100 );
+      }
     }
   }
-  delay(10);
-  
-//  if( touchF.isTouched() ) { 
-//    Serial.print("TOUCH!\n");
-//  }
-//  delay(100);
+  delay(1); // rate limit, cand probably remove this
 }
+
+//
+// core0 is for audio synthesis
+//
 
 //
 void setup() {
@@ -116,7 +136,7 @@ void setup() {
   MIDIusb.turnThruOff();    // turn off echo
 
   startMozzi(CONTROL_RATE);
-  
+
   envelope.setReleaseLevel(0);
 
   handleProgramChange(0); // set our initial patch
@@ -129,8 +149,7 @@ void loop() {
 
 //
 void handleNoteOn(byte channel, byte note, byte velocity) {
-//  Serial.println("midi_test handleNoteOn!");
-  #if DEBUG_MIDI 
+  #if DEBUG_MIDI
   Serial.printf("noteOn %d %d\n", note, velocity);
   #endif
   digitalWrite(LED_BUILTIN,HIGH);
@@ -140,7 +159,7 @@ void handleNoteOn(byte channel, byte note, byte velocity) {
 
 //
 void handleNoteOff(byte channel, byte note, byte velocity) {
-  #if DEBUG_MIDI 
+  #if DEBUG_MIDI
   Serial.printf("noteOff %d %d\n", note, velocity);
   #endif
   digitalWrite(LED_BUILTIN,LOW);
@@ -149,14 +168,14 @@ void handleNoteOff(byte channel, byte note, byte velocity) {
 
 //
 void handleControlChange(byte channel, byte cc_num, byte cc_val) {
-  #if DEBUG_MIDI 
+  #if DEBUG_MIDI
   Serial.printf("CC %d %d\n", cc_num, cc_val);
   #endif
-  for( int i=0; i<CC_COUNT; i++) { 
+  for( int i=0; i<CC_COUNT; i++) {
     if( midi_ccs[i] == cc_num ) { // we got one
       mod_vals[i] = cc_val;
       // special cases, not set every updateControl()
-      if( i == PortamentoTime ) { 
+      if( i == PortamentoTime ) {
         portamento.setTime( mod_vals[PortamentoTime] * 2);
       }
       else if( i == EnvReleaseTime ) {
@@ -171,10 +190,10 @@ void handleControlChange(byte channel, byte cc_num, byte cc_val) {
 void handleProgramChange(byte m) {
   Serial.print("program change:"); Serial.println((byte)m);
   sound_mode = m;
-  if( sound_mode == 0 ) {    
+  if( sound_mode == 0 ) {
     aOsc1.setTable(SAW_ANALOGUE512_DATA);
     aOsc2.setTable(SAW_ANALOGUE512_DATA);
-    
+
     mod_vals[Modulation] = 0;   // FIXME: modulation unused currently
     mod_vals[Resonance] = 93;
     mod_vals[FilterCutoff] = 60;
@@ -182,7 +201,7 @@ void handleProgramChange(byte m) {
     mod_vals[EnvReleaseTime] = 120; // in 10x milliseconds (100 = 1000 msecs)
 
     lpf.setCutoffFreqAndResonance(mod_vals[FilterCutoff], mod_vals[Resonance]*2);
-    
+
     kFilterMod.setFreq(4.0f);  // fast
     envelope.setADLevels(255, 255);
     envelope.setTimes(50, 200, 20000, mod_vals[EnvReleaseTime]*10 );
@@ -191,12 +210,12 @@ void handleProgramChange(byte m) {
   else if ( sound_mode == 1 ) {
     aOsc1.setTable(SQUARE_ANALOGUE512_DATA);
     aOsc2.setTable(SQUARE_ANALOGUE512_DATA);
-    
+
     mod_vals[Resonance] = 50;
     mod_vals[EnvReleaseTime] = 15;
-    
+
     lpf.setCutoffFreqAndResonance(mod_vals[FilterCutoff], mod_vals[Resonance]*2);
-    
+
     kFilterMod.setFreq(0.5f);     // slow
     envelope.setADLevels(255, 255);
     envelope.setTimes(50, 100, 20000, (uint16_t)mod_vals[EnvReleaseTime]*10 );
@@ -233,19 +252,18 @@ void handleMIDI() {
   }
 }
 
-
-byte envgain;
+byte envgain;  // do envelope in updateControl() instead of in updateAudio()
 
 // mozzi function, called at CONTROL_RATE times per second
 void updateControl() {
   handleMIDI();
-  
+
   // map the lpf modulation into the filter range (0-255), corresponds with 0-8191Hz, kFilterMod runs -128-127
   //uint8_t cutoff_freq = cutoff + (mod_amount * (kFilterMod.next()/2));
-//  uint16_t fm = ((kFilterMod.next() * mod_vals[Modulation]) / 128) + 127 ; 
-//  uint8_t cutoff_freq = constrain(mod_vals[FilterCutoff] + fm, 0,255 );
-  
-//  lpf.setCutoffFreqAndResonance(cutoff_freq, mod_vals[Resonance]*2);
+  //  uint16_t fm = ((kFilterMod.next() * mod_vals[Modulation]) / 128) + 127 ;
+  //  uint8_t cutoff_freq = constrain(mod_vals[FilterCutoff] + fm, 0,255 );
+
+  //  lpf.setCutoffFreqAndResonance(cutoff_freq, mod_vals[Resonance]*2);
 
   lpf.setCutoffFreqAndResonance(mod_vals[FilterCutoff], mod_vals[Resonance]*2);  // don't *2 filter since we want 0-4096Hz
 
@@ -254,7 +272,7 @@ void updateControl() {
 
   Q16n16 pf = portamento.next();  // Q16n16 is a fixed-point fraction in 32-bits (16bits . 16bits)
   aOsc1.setFreq_Q16n16(pf);
-  aOsc2.setFreq_Q16n16(pf*1.02);
+  aOsc2.setFreq_Q16n16(pf*1.015);
 
 }
 
@@ -262,5 +280,5 @@ void updateControl() {
 AudioOutput_t updateAudio() {
   long asig = lpf.next( aOsc1.next() + aOsc2.next() );
   return MonoOutput::fromAlmostNBit(18, envgain * asig); // 16 = 8 signal bits + 8 envelope bits
-//  return MonoOutput::fromAlmostNBit(18, envelope.next() * asig); // 16 = 8 signal bits + 8 envelope bits
+  //  return MonoOutput::fromAlmostNBit(18, envelope.next() * asig); // 16 = 8 signal bits + 8 envelope bits
 }
