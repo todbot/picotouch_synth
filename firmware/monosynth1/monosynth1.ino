@@ -4,6 +4,13 @@
  *
  * Responds to USB MIDI too
  *
+ * Libraries needed:
+ * - "arduino-pico" core for Pico - https://arduino-pico.readthedocs.io/en/latest/
+ * - Adafruit_TinyUSB - also select in IDE "Tools / USB Stack: Adafruit TinyUSB"
+ * - Adafruit_NeoPixel
+ * - Adafruit_SSD1306
+ * - Mozzi - https://github.com/sensorium/Mozzi - and change Mozzi/AudioConfigRP2040.h to "AUDIO_CHANNEL_1_PIN 28"
+ *
  * @todbot 1 Dec 2022
  *
  **/
@@ -41,7 +48,8 @@
 byte sound_mode = 0; // patch number / program change
 bool retrig_lfo = true;
 int midi_base_note = 48;  // for touch keyboard
-uint8_t led_fade_amount = 2;
+uint8_t led_fade_amount = 1;
+float led_brightness = 0.15;
 
 enum KnownCCs {
   Modulation=0,
@@ -62,7 +70,7 @@ uint8_t midi_ccs[] = {
 };
 uint8_t mod_vals[ CC_COUNT ];
 
-// how picotouchsynth board is set up
+// pinout of how picotouchsynth board is set up
 const int num_touch = 16;
 const int num_leds = 13;
 const int touch_pins[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 };
@@ -71,6 +79,11 @@ const int midi_pin     = 17;
 const int disp_sda_pin = 20;
 const int disp_scl_pin = 21;
 const int audio_pin    = 28; // edit Mozzi/AudioConfigRP2040.h to set this
+// button indexes
+const int BUTTON_MODE   = 0;
+const int BUTTON_SELECT = 15;
+const int BUTTON_UP     = 14;
+const int BUTTON_DOWN   = 13;
 
 Adafruit_USBD_MIDI usb_midi;
 MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, MIDIusb);
@@ -80,6 +93,7 @@ Adafruit_NeoPixel leds = Adafruit_NeoPixel(num_leds, led_pin, NEO_GRB + NEO_KHZ8
 Adafruit_SSD1306 display(128, 32, &Wire, -1); // -1 = no OLED_RESET
 
 bool keys_pressed[12]; // one per note
+int key_mode = 0;
 
 // Oscillators
 Oscil<SAW_ANALOGUE512_NUM_CELLS, AUDIO_RATE> aOsc1(SAW_ANALOGUE512_DATA);
@@ -94,10 +108,9 @@ Portamento <CONTROL_RATE> portamento;
 LowPassFilter lpf;
 
 
-//
+///////////////////////////////////////////////////////////////////////////////
 // core1 is for UI and MIDI
 //
-
 
 // fade a color by an amount
 uint32_t fadeToBlackBy(uint32_t c, uint8_t amount)
@@ -112,22 +125,13 @@ uint32_t fadeToBlackBy(uint32_t c, uint8_t amount)
   return (r << 16) | (g << 8) | b;
 }
 
-/* void setLed(int note, bool on) { */
-/*   int n = (note%12); */
-/*   keys_pressed[n] = on; */
-/*   if( on )  { */
-/*     leds.setPixelColor( n+1 , leds.ColorHSV(millis()*10,255,255) ); */
-/*   } */
-/*   leds.show(); */
-/* } */
-
 void setup1() {
   MIDIusb.begin(MIDI_CHANNEL_OMNI);   // Initiate MIDI communications, listen to all channels
   MIDIusb.turnThruOff();    // turn off echo
 
   // LEDs
   leds.begin();
-  leds.setBrightness(51); // 0.2
+  leds.setBrightness( led_brightness * 255 ); // 51 = 0.2
   leds.show(); // off
   for( int i=0; i < num_leds; i++ ) {
     uint32_t newcolor = leds.ColorHSV(i*255*20);
@@ -139,7 +143,7 @@ void setup1() {
   for(int i=0; i<num_touch; i++) {
     touches[i] = TouchyTouch();
     touches[i].begin( touch_pins[i] );
-    touches[i].threshold += 200;
+    touches[i].threshold += 200; // make a bit more noise-proof
   }
 
   // Display
@@ -162,20 +166,20 @@ void setup1() {
   display.display();
 }
 
-int key_mode = 0;
 
 void loop1() {
   handleMIDI();
 
   // LED fading fade all released note LEDS by same amount
   for ( int i = 0; i < 12; i++) {
-    int ledn = i+1;
-    uint32_t c = leds.getPixelColor(ledn);
+    int ledi = i+1;
+    uint32_t c = leds.getPixelColor(ledi);
     if( keys_pressed[i] ) {
-      c = leds.ColorHSV(millis()*20*255, 255,255);
+      c = leds.ColorHSV(millis()*10, 255,255);
+      //c = leds.ColorHSV(1000, 255,255);
     }
     c = fadeToBlackBy(c, led_fade_amount);
-    leds.setPixelColor(ledn, c);
+    leds.setPixelColor(ledi, c);
   }
   leds.show();
 
@@ -217,27 +221,6 @@ void loop1() {
     }
   }
   delay(1); // rate limit, cand probably remove this
-}
-
-//
-// core0 is for audio synthesis
-//
-
-//
-void setup() {
-  Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT);
-
-  startMozzi(CONTROL_RATE);
-
-  envelope.setReleaseLevel(0);
-
-  handleProgramChange(0); // set our initial patch
-}
-
-//
-void loop() {
-  audioHook();
 }
 
 
@@ -348,6 +331,28 @@ void handleMIDI() {
     }
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// core0 is for audio synthesis
+//
+
+//
+void setup() {
+  Serial.begin(115200);
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  startMozzi(CONTROL_RATE);
+
+  envelope.setReleaseLevel(0);
+
+  handleProgramChange(0); // set our initial patch
+}
+
+//
+void loop() {
+  audioHook();
+}
+
 
 byte envgain;  // do envelope in updateControl() instead of in updateAudio()
 
