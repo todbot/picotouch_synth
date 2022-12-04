@@ -30,6 +30,8 @@
 #include <Adafruit_TinyUSB.h>
 #include <MIDI.h>
 #include <Adafruit_NeoPixel.h>
+#include <Wire.h>
+#include <Adafruit_SSD1306.h>
 
 #include "TouchyTouch.h"
 
@@ -75,6 +77,7 @@ MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, MIDIusb);
 
 TouchyTouch touches[num_touch];
 Adafruit_NeoPixel leds = Adafruit_NeoPixel(num_leds, led_pin, NEO_GRB + NEO_KHZ800);
+Adafruit_SSD1306 display(128, 32, &Wire, -1); // -1 = no OLED_RESET
 
 bool keys_pressed[12]; // one per note
 
@@ -138,7 +141,25 @@ void setup1() {
     touches[i].begin( touch_pins[i] );
     touches[i].threshold += 200;
   }
-  //touches[0].threshold += 1000; // mode button is more sensitive
+
+  // Display
+  Wire.setSDA(disp_sda_pin);
+  Wire.setSCL(disp_scl_pin);
+  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;); // Don't proceed, loop forever
+  }
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(10,0);
+  display.write("pico");
+  display.setCursor(60,0);
+  display.write("touch");
+  display.setCursor(34,17);
+  display.write("synth");
+  display.display();
 }
 
 int key_mode = 0;
