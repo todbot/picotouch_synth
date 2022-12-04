@@ -13,7 +13,8 @@
 // If slower than 512 can't get all MIDI from Live
 #define CONTROL_RATE 512
 // set DEBUG_MIDI 1 to show CCs received in Serial Monitor
-#define DEBUG_MIDI 1
+#define DEBUG_MIDI_NOTE 1
+#define DEBUG_MIDI_CC 1
 
 #include <MozziGuts.h>
 #include <Oscil.h>
@@ -38,6 +39,7 @@
 byte sound_mode = 0; // patch number / program change
 bool retrig_lfo = true;
 int midi_base_note = 48;  // for touch keyboard
+uint8_t led_fade_amount = 2;
 
 enum KnownCCs {
   Modulation=0,
@@ -93,7 +95,6 @@ LowPassFilter lpf;
 // core1 is for UI and MIDI
 //
 
-uint8_t fade_amount = 1;
 
 // fade a color by an amount
 uint32_t fadeToBlackBy(uint32_t c, uint8_t amount)
@@ -137,8 +138,10 @@ void setup1() {
     touches[i].begin( touch_pins[i] );
     touches[i].threshold += 200;
   }
-  touches[0].threshold += 1000; // mode button is more sensitive
+  //touches[0].threshold += 1000; // mode button is more sensitive
 }
+
+int key_mode = 0;
 
 void loop1() {
   handleMIDI();
@@ -148,9 +151,9 @@ void loop1() {
     int ledn = i+1;
     uint32_t c = leds.getPixelColor(ledn);
     if( keys_pressed[i] ) {
-      c = leds.Color(millis()*20*255, 255,255);
+      c = leds.ColorHSV(millis()*20*255, 255,255);
     }
-    c = fadeToBlackBy(c, fade_amount);
+    c = fadeToBlackBy(c, led_fade_amount);
     leds.setPixelColor(ledn, c);
   }
   leds.show();
@@ -163,10 +166,13 @@ void loop1() {
     if( touches[i].rose() ) {
       Serial.printf("pressed %d\n", i);
       if( i==0 ) { // mode button
+        key_mode = (key_mode + 1) % 4;
+        leds.setPixelColor( 0, leds.ColorHSV(key_mode * 255 * 20, 255,255) );
+        Serial.printf("key_mode:%d\n", key_mode);
       }
       else if( i > 0 && i < 13 ) { // notes
         handleNoteOn(0, midi_base_note + i - 1, 100 );
-        for(i=0;i<12;i++) { Serial.printf("%d ",keys_pressed[i]); }; Serial.println();
+        //for(i=0;i<12;i++) { Serial.printf("%d ",keys_pressed[i]); }; Serial.println();
       }
       else if( i== 13 ) { // up
         midi_base_note += 12;
@@ -182,7 +188,9 @@ void loop1() {
 
     if( touches[i].fell() ) {
       Serial.printf("released %d\n", i);
-      if( i > 0 && i < 13 ) {
+      if( i==0 ) { // mode button
+      }
+      else if( i > 0 && i < 13 ) {
         handleNoteOff(0, midi_base_note + i - 1, 100 );
       }
     }
@@ -214,7 +222,7 @@ void loop() {
 
 //
 void handleNoteOn(byte channel, byte note, byte velocity) {
-  #if DEBUG_MIDI
+  #if DEBUG_MIDI_NOTE
   Serial.printf("noteOn %d %d\n", note, velocity);
   #endif
   digitalWrite(LED_BUILTIN,HIGH);
@@ -226,7 +234,7 @@ void handleNoteOn(byte channel, byte note, byte velocity) {
 
 //
 void handleNoteOff(byte channel, byte note, byte velocity) {
-  #if DEBUG_MIDI
+  #if DEBUG_MIDI_NOTE
   Serial.printf("noteOff %d %d\n", note, velocity);
   #endif
   digitalWrite(LED_BUILTIN,LOW);
@@ -236,7 +244,7 @@ void handleNoteOff(byte channel, byte note, byte velocity) {
 
 //
 void handleControlChange(byte channel, byte cc_num, byte cc_val) {
-  #if DEBUG_MIDI
+  #if DEBUG_MIDI_CC
   Serial.printf("CC %d %d\n", cc_num, cc_val);
   #endif
   for( int i=0; i<CC_COUNT; i++) {

@@ -30,10 +30,11 @@ class TouchyTouch
 
   // call update() as fast as possible
   void update() {
+    changed = false;
     uint32_t now = millis();
-    bool touch_state = isTouched();
     if( now - last_debounce_millis > debounce_interval ) {
       last_debounce_millis = now;
+      bool touch_state = isTouched();
       changed = touch_state != last_state;
       last_state = touch_state;
     }
