@@ -126,6 +126,7 @@ uint32_t fadeToBlackBy(uint32_t c, uint8_t amount)
 }
 
 void setup1() {
+  Serial.begin(115200);
   MIDIusb.begin(MIDI_CHANNEL_OMNI);   // Initiate MIDI communications, listen to all channels
   MIDIusb.turnThruOff();    // turn off echo
 
@@ -141,7 +142,7 @@ void setup1() {
 
   // Touch buttons
   for(int i=0; i<num_touch; i++) {
-    touches[i] = TouchyTouch();
+    //touches[i] = TouchyTouch();
     touches[i].begin( touch_pins[i] );
     touches[i].threshold += 200; // make a bit more noise-proof
   }
@@ -220,34 +221,49 @@ void loop1() {
       }
     }
   }
+  display.display();
   delay(1); // rate limit, cand probably remove this
 }
 
+int circle_size = 6;
+int keycircles_x[12];
+int keycircles_y[12];
 
 //
-void handleNoteOn(byte channel, byte note, byte velocity) {
+void handleNoteOn([[maybe_unused]] byte channel, byte note, byte velocity) {
   #if DEBUG_MIDI_NOTE
   Serial.printf("noteOn %d %d\n", note, velocity);
   #endif
   digitalWrite(LED_BUILTIN,HIGH);
+
   portamento.start(note);
   envelope.noteOn();
 
-  keys_pressed[note%12] = true;
+  // display
+  int n = note%12;
+  keys_pressed[n] = true;
+  keycircles_x[n] = random(display.width());;
+  keycircles_y[n] = random(display.height());;
+  display.fillCircle(keycircles_x[n], keycircles_y[n], circle_size, INVERSE);
 }
 
 //
-void handleNoteOff(byte channel, byte note, byte velocity) {
+void handleNoteOff([[maybe_unused]] byte channel, byte note, byte velocity) {
   #if DEBUG_MIDI_NOTE
   Serial.printf("noteOff %d %d\n", note, velocity);
   #endif
   digitalWrite(LED_BUILTIN,LOW);
+
   envelope.noteOff();
-  keys_pressed[note%12] = false;
+
+  // display
+  int n = note%12;
+  keys_pressed[n] = false;
+  display.fillCircle(keycircles_x[n], keycircles_y[n], circle_size, INVERSE);
 }
 
 //
-void handleControlChange(byte channel, byte cc_num, byte cc_val) {
+void handleControlChange([[maybe_unused]] byte channel, byte cc_num, byte cc_val) {
   #if DEBUG_MIDI_CC
   Serial.printf("CC %d %d\n", cc_num, cc_val);
   #endif
@@ -338,7 +354,6 @@ void handleMIDI() {
 
 //
 void setup() {
-  Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
 
   startMozzi(CONTROL_RATE);
@@ -352,7 +367,6 @@ void setup() {
 void loop() {
   audioHook();
 }
-
 
 byte envgain;  // do envelope in updateControl() instead of in updateAudio()
 

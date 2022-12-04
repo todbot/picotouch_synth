@@ -77,7 +77,7 @@ class TouchyTouch
   }
 
   uint32_t last_debounce_millis;
-  int16_t debounce_interval;
+  uint16_t debounce_interval;
   bool last_state;
   bool changed;
   uint16_t threshold;
