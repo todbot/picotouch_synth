@@ -74,6 +74,7 @@ MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, MIDIusb);
 TouchyTouch touches[num_touch];
 Adafruit_NeoPixel leds = Adafruit_NeoPixel(num_leds, led_pin, NEO_GRB + NEO_KHZ800);
 
+bool keys_pressed[12]; // one per note
 
 // Oscillators
 Oscil<SAW_ANALOGUE512_NUM_CELLS, AUDIO_RATE> aOsc1(SAW_ANALOGUE512_DATA);
@@ -107,6 +108,15 @@ uint32_t fadeToBlackBy(uint32_t c, uint8_t amount)
   return (r << 16) | (g << 8) | b;
 }
 
+/* void setLed(int note, bool on) { */
+/*   int n = (note%12); */
+/*   keys_pressed[n] = on; */
+/*   if( on )  { */
+/*     leds.setPixelColor( n+1 , leds.ColorHSV(millis()*10,255,255) ); */
+/*   } */
+/*   leds.show(); */
+/* } */
+
 void setup1() {
   MIDIusb.begin(MIDI_CHANNEL_OMNI);   // Initiate MIDI communications, listen to all channels
   MIDIusb.turnThruOff();    // turn off echo
@@ -133,12 +143,17 @@ void setup1() {
 void loop1() {
   handleMIDI();
 
-  /* // LED fading fade all LEDS by same amount */
-  /* for ( int i = 0; i < num_Leds; i++) { */
-  /*   uint32_t c = leds.getPixelColor(i); */
-  /*   c = fadeToBlackBy(c, fade_amount); */
-  /*   leds.setPixelColor(i, c); */
-  /* } */
+  // LED fading fade all released note LEDS by same amount
+  for ( int i = 0; i < 12; i++) {
+    int ledn = i+1;
+    uint32_t c = leds.getPixelColor(ledn);
+    if( keys_pressed[i] ) {
+      c = leds.Color(millis()*20*255, 255,255);
+    }
+    c = fadeToBlackBy(c, fade_amount);
+    leds.setPixelColor(ledn, c);
+  }
+  leds.show();
 
   // key handling
   for( int i=0; i<num_touch; i++) {
@@ -151,6 +166,7 @@ void loop1() {
       }
       else if( i > 0 && i < 13 ) { // notes
         handleNoteOn(0, midi_base_note + i - 1, 100 );
+        for(i=0;i<12;i++) { Serial.printf("%d ",keys_pressed[i]); }; Serial.println();
       }
       else if( i== 13 ) { // up
         midi_base_note += 12;
@@ -205,8 +221,7 @@ void handleNoteOn(byte channel, byte note, byte velocity) {
   portamento.start(note);
   envelope.noteOn();
 
-  leds.setPixelColor( (note%12)+1 , leds.ColorHSV(millis()*10,255,255) );
-  leds.show();
+  keys_pressed[note%12] = true;
 }
 
 //
@@ -216,8 +231,7 @@ void handleNoteOff(byte channel, byte note, byte velocity) {
   #endif
   digitalWrite(LED_BUILTIN,LOW);
   envelope.noteOff();
-  leds.setPixelColor( (note%12)+1, leds.ColorHSV(0,0,0) );
-  leds.show();
+  keys_pressed[note%12] = false;
 }
 
 //
