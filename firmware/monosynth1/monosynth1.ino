@@ -33,6 +33,7 @@
 #include <ADSR.h>
 #include <Portamento.h>
 #include <mozzi_midi.h> // for mtof()
+#include <AudioDelayFeedback.h>
 
 #include <Adafruit_TinyUSB.h>
 #include <MIDI.h>
@@ -48,7 +49,7 @@
 byte sound_mode = 0; // patch number / program change
 bool retrig_lfo = true;
 int midi_base_note = 48;  // for touch keyboard
-uint8_t led_fade_amount = 1;
+uint8_t led_fade_amount = 2;
 float led_brightness = 0.15;
 
 enum KnownCCs {
@@ -70,9 +71,13 @@ uint8_t midi_ccs[] = {
 };
 uint8_t mod_vals[ CC_COUNT ];
 
+Q16n16 deltime; // audio delay
+
 // pinout of how picotouchsynth board is set up
 const int num_touch = 16;
 const int num_leds = 13;
+const int display_w = 128;
+const int display_h = 32;
 const int touch_pins[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 };
 const int led_pin      = 16;
 const int midi_pin     = 17;
@@ -107,6 +112,8 @@ ADSR <CONTROL_RATE, CONTROL_RATE> envelope;
 Portamento <CONTROL_RATE> portamento;
 LowPassFilter lpf;
 
+AudioDelayFeedback <128> aDel;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // core1 is for UI and MIDI
@@ -134,11 +141,11 @@ void setup1() {
   leds.begin();
   leds.setBrightness( led_brightness * 255 ); // 51 = 0.2
   leds.show(); // off
-  for( int i=0; i < num_leds; i++ ) {
-    uint32_t newcolor = leds.ColorHSV(i*255*20);
-    leds.setPixelColor(i, newcolor);
-  }
-  leds.show();
+  /* for( int i=0; i < num_leds; i++ ) { */
+  /*   uint32_t newcolor = leds.ColorHSV(i*255*20); */
+  /*   leds.setPixelColor(i, newcolor); */
+  /* } */
+  /* leds.show(); */
 
   // Touch buttons
   for(int i=0; i<num_touch; i++) {
@@ -150,7 +157,6 @@ void setup1() {
   // Display
   Wire.setSDA(disp_sda_pin);
   Wire.setSCL(disp_scl_pin);
-  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
@@ -165,6 +171,11 @@ void setup1() {
   display.setCursor(34,17);
   display.write("synth");
   display.display();
+
+  delay(500);
+
+  display.dim(true);
+
 }
 
 
@@ -221,7 +232,8 @@ void loop1() {
       }
     }
   }
-  display.display();
+
+  //display.display();
   delay(1); // rate limit, cand probably remove this
 }
 
@@ -242,9 +254,9 @@ void handleNoteOn([[maybe_unused]] byte channel, byte note, byte velocity) {
   // display
   int n = note%12;
   keys_pressed[n] = true;
-  keycircles_x[n] = random(display.width());;
-  keycircles_y[n] = random(display.height());;
-  display.fillCircle(keycircles_x[n], keycircles_y[n], circle_size, INVERSE);
+  keycircles_x[n] = random(display_w);;
+  keycircles_y[n] = random(display_h);;
+  //display.fillCircle(keycircles_x[n], keycircles_y[n], circle_size, INVERSE);
 }
 
 //
@@ -259,7 +271,7 @@ void handleNoteOff([[maybe_unused]] byte channel, byte note, byte velocity) {
   // display
   int n = note%12;
   keys_pressed[n] = false;
-  display.fillCircle(keycircles_x[n], keycircles_y[n], circle_size, INVERSE);
+  //display.fillCircle(keycircles_x[n], keycircles_y[n], circle_size, INVERSE);
 }
 
 //
@@ -294,7 +306,7 @@ void handleProgramChange(byte m) {
     mod_vals[Resonance] = 93;
     mod_vals[FilterCutoff] = 60;
     mod_vals[PortamentoTime] = 50; // actually in milliseconds
-    mod_vals[EnvReleaseTime] = 120; // in 10x milliseconds (100 = 1000 msecs)
+    mod_vals[EnvReleaseTime] = 50; // in 10x milliseconds (100 = 1000 msecs)
 
     lpf.setCutoffFreqAndResonance(mod_vals[FilterCutoff], mod_vals[Resonance]*2);
 
@@ -360,6 +372,8 @@ void setup() {
 
   envelope.setReleaseLevel(0);
 
+  aDel.setFeedbackLevel(-20); // can be -128 to 127
+
   handleProgramChange(0); // set our initial patch
 }
 
@@ -390,11 +404,16 @@ void updateControl() {
   aOsc1.setFreq_Q16n16(pf);
   aOsc2.setFreq_Q16n16(pf*1.015);
 
+  deltime = Q8n0_to_Q16n16(17); //  + ((long)kDelSamps.next()<<12);
 }
 
 // mozzi function, called at AUDIO_RATE times per second
 AudioOutput_t updateAudio() {
   long asig = lpf.next( aOsc1.next() + aOsc2.next() );
-  return MonoOutput::fromAlmostNBit(18, envgain * asig); // 16 = 8 signal bits + 8 envelope bits
-  //  return MonoOutput::fromAlmostNBit(18, envelope.next() * asig); // 16 = 8 signal bits + 8 envelope bits
+  asig = envgain * asig; // 16-bits: 8 signal bits + 8 envelope bits
+  //aDel.next(asig, deltime)
+  return MonoOutput::fromAlmostNBit(18, asig );
+  //return MonoOutput::fromAlmostNBit(18, 0); // test noise
+  //return MonoOutput::fromAlmostNBit(18, (asig>>3) + aDel.next(asig, deltime) );
+  //return MonoOutput::fromAlmostNBit(18, envgain * asig); // 16 = 8 signal bits + 8 envelope bits
 }
