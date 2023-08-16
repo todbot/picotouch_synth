@@ -1,5 +1,6 @@
 # ignore for tod sanity
-firmware/test
+circuitpython/old
+schematics/old
 
 # Ignore list for Eagle, a PCB layout tool
 
