@@ -12380,7 +12380,7 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <part name="R9" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1M"/>
 <part name="TP9" library="todstuff" library_urn="urn:adsk.eagle:library:1731349" deviceset="TOUCHPAD" device="A" package3d_urn="urn:adsk.eagle:package:27542649/4"/>
 <part name="GND10" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="R10" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2"/>
+<part name="R10" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1M"/>
 <part name="TP10" library="todstuff" library_urn="urn:adsk.eagle:library:1731349" deviceset="TOUCHPAD" device="A" package3d_urn="urn:adsk.eagle:package:27542649/4"/>
 <part name="GND11" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="R11" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1M"/>
@@ -14339,6 +14339,7 @@ stereo cables. Does not work w/ mono cables</text>
 <approved hash="204,1,12.7,81.28,U1,VSYS,,,,"/>
 <approved hash="204,1,-22.86,15.24,U1,SWGND,,,,"/>
 <approved hash="202,1,-22.86,17.78,U1,SWCLK,,,,"/>
+<approved hash="104,1,109.22,63.5,IC2,VCC,+3V3,,,"/>
 <approved hash="104,1,99.06,-15.24,LED1,VDD,+3V3,,,"/>
 <approved hash="104,1,124.46,-15.24,LED2,VDD,+3V3,,,"/>
 <approved hash="104,1,149.86,-15.24,LED3,VDD,+3V3,,,"/>
@@ -14359,6 +14360,7 @@ stereo cables. Does not work w/ mono cables</text>
 <approved hash="104,1,332.74,-60.96,LED18,VDD,+3V3,,,"/>
 <approved hash="104,1,358.14,-60.96,LED19,VDD,+3V3,,,"/>
 <approved hash="104,1,383.54,-60.96,LED20,VDD,+3V3,,,"/>
+<approved hash="106,1,12.7,83.82,VBUS,,,,,"/>
 </errors>
 </schematic>
 </drawing>
