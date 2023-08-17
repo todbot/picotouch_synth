@@ -11,3 +11,7 @@ Features:
 * USB MIDI In/Out
 * 19 RGB LEDs
 * 22 touch pads (17 notes, 5 modifiers)
+
+
+<img width=500 src="./docs/picotouch_synth_toprender_blk.png"/>
+<img width=500 src="./docs/picotouch_synth_botrender_blk.png"/>
