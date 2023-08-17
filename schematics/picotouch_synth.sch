@@ -12414,17 +12414,17 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <part name="R20" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="1M"/>
 <part name="GND22" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND23" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="R29" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="220"/>
+<part name="R26" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="220"/>
 <part name="GND28" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="+3V2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
-<part name="R30" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="4.70k"/>
-<part name="C44" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="100n"/>
+<part name="R25" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="4.70k"/>
+<part name="C21" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="100n"/>
 <part name="GND29" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="IC2" library="optocoupler" deviceset="H11L*M" device="S" package3d_urn="urn:adsk.eagle:package:21970/1" override_package3d_urn="urn:adsk.eagle:package:38569067/2" override_package_urn="urn:adsk.eagle:footprint:21929/1" technology="1">
+<part name="IC1" library="optocoupler" deviceset="H11L*M" device="S" package3d_urn="urn:adsk.eagle:package:21970/1" override_package3d_urn="urn:adsk.eagle:package:38569067/2" override_package_urn="urn:adsk.eagle:footprint:21929/1" technology="1">
 <attribute name="LCSC" value="C78589"/>
 <attribute name="MPN2" value="H11L1S"/>
 </part>
-<part name="D2" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="1N4148"/>
+<part name="D1" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="DIODE-" device="SOD123" package3d_urn="urn:adsk.eagle:package:43420/1" value="1N4148"/>
 <part name="J3" library="audio_jacks_todbot" deviceset="AUDIO-JACK-TRRS" device="" override_package3d_urn="urn:adsk.eagle:package:40883451/2" override_package_urn="urn:adsk.eagle:footprint:40883452/1"/>
 <part name="GND30" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="R31" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="1.8k"/>
@@ -12432,18 +12432,18 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <part name="R33" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="220"/>
 <part name="GND31" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND32" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="C55" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="47uF"/>
-<part name="C66" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="100n"/>
+<part name="C24" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="47uF"/>
+<part name="C23" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="100n"/>
 <part name="GND33" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="J4" library="audio_jacks_todbot" deviceset="AUDIO-JACK-TRRS" device="" override_package3d_urn="urn:adsk.eagle:package:40883453/2" override_package_urn="urn:adsk.eagle:footprint:40883454/1">
+<part name="J2" library="audio_jacks_todbot" deviceset="AUDIO-JACK-TRRS" device="" override_package3d_urn="urn:adsk.eagle:package:40883453/2" override_package_urn="urn:adsk.eagle:footprint:40883454/1">
 <attribute name="LCSC" value="C431535"/>
 </part>
 <part name="GND34" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND35" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="R24" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="33"/>
+<part name="R23" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="33"/>
 <part name="J1" library="audio_jacks_todbot" deviceset="AUDIO-JACK-TRRS" device="" override_package3d_urn="urn:adsk.eagle:package:40883451/2" override_package_urn="urn:adsk.eagle:footprint:40883452/1"/>
 <part name="GND18" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="R25" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="10"/>
+<part name="R24" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="10"/>
 <part name="LED1" library="todstuff2023" deviceset="WS2812B" device="3535" package3d_urn="urn:adsk.eagle:package:1731511/2"/>
 <part name="LED2" library="todstuff2023" deviceset="WS2812B" device="3535" package3d_urn="urn:adsk.eagle:package:1731511/2"/>
 <part name="LED3" library="todstuff2023" deviceset="WS2812B" device="3535" package3d_urn="urn:adsk.eagle:package:1731511/2"/>
@@ -12800,7 +12800,7 @@ stereo cables. Does not work w/ mono cables</text>
 <instance part="GND23" gate="1" x="93.98" y="-43.18" smashed="yes">
 <attribute name="VALUE" x="91.44" y="-45.72" size="1.778" layer="96"/>
 </instance>
-<instance part="R29" gate="G$1" x="139.7" y="63.5" smashed="yes">
+<instance part="R26" gate="G$1" x="139.7" y="63.5" smashed="yes">
 <attribute name="NAME" x="140.462" y="66.8274" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="141.478" y="61.976" size="1.778" layer="96" rot="R180"/>
 </instance>
@@ -12810,24 +12810,24 @@ stereo cables. Does not work w/ mono cables</text>
 <instance part="+3V2" gate="G$1" x="106.68" y="86.36" smashed="yes">
 <attribute name="VALUE" x="105.664" y="86.36" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="R30" gate="G$1" x="101.6" y="68.58" smashed="yes" rot="R270">
+<instance part="R25" gate="G$1" x="101.6" y="68.58" smashed="yes" rot="R270">
 <attribute name="NAME" x="104.9274" y="67.818" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="100.076" y="66.802" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="C44" gate="G$1" x="111.76" y="78.74" smashed="yes" rot="MR0">
+<instance part="C21" gate="G$1" x="111.76" y="78.74" smashed="yes" rot="MR0">
 <attribute name="NAME" x="117.856" y="79.121" size="1.778" layer="95" rot="MR0"/>
 <attribute name="VALUE" x="117.856" y="74.041" size="1.778" layer="96" rot="MR0"/>
 </instance>
 <instance part="GND29" gate="1" x="111.76" y="71.12" smashed="yes" rot="MR0">
 <attribute name="VALUE" x="114.3" y="68.58" size="1.778" layer="96" rot="MR0"/>
 </instance>
-<instance part="IC2" gate="G$1" x="119.38" y="60.96" smashed="yes" rot="MR0">
+<instance part="IC1" gate="G$1" x="119.38" y="60.96" smashed="yes" rot="MR0">
 <attribute name="NAME" x="127" y="67.31" size="1.778" layer="95" rot="MR0"/>
 <attribute name="VALUE" x="127" y="53.34" size="1.778" layer="96" rot="MR0"/>
 <attribute name="LCSC" x="119.38" y="60.96" size="1.778" layer="96" rot="MR0" display="off"/>
 <attribute name="MPN2" x="119.38" y="60.96" size="1.778" layer="96" rot="MR0" display="off"/>
 </instance>
-<instance part="D2" gate="G$1" x="132.08" y="58.42" smashed="yes" rot="MR90">
+<instance part="D1" gate="G$1" x="132.08" y="58.42" smashed="yes" rot="MR90">
 <attribute name="NAME" x="135.6106" y="54.356" size="1.778" layer="95" rot="MR90"/>
 <attribute name="VALUE" x="133.5786" y="54.356" size="1.778" layer="96" rot="MR90"/>
 </instance>
@@ -12856,18 +12856,18 @@ stereo cables. Does not work w/ mono cables</text>
 <instance part="GND32" gate="1" x="114.3" y="15.24" smashed="yes">
 <attribute name="VALUE" x="111.76" y="12.7" size="1.778" layer="96"/>
 </instance>
-<instance part="C55" gate="G$1" x="121.92" y="27.94" smashed="yes" rot="R90">
+<instance part="C24" gate="G$1" x="121.92" y="27.94" smashed="yes" rot="R90">
 <attribute name="NAME" x="121.412" y="33.401" size="1.778" layer="95"/>
 <attribute name="VALUE" x="120.904" y="30.607" size="1.778" layer="96"/>
 </instance>
-<instance part="C66" gate="G$1" x="106.68" y="22.86" smashed="yes">
+<instance part="C23" gate="G$1" x="106.68" y="22.86" smashed="yes">
 <attribute name="NAME" x="107.188" y="23.241" size="1.778" layer="95"/>
 <attribute name="VALUE" x="107.188" y="18.161" size="1.778" layer="96"/>
 </instance>
 <instance part="GND33" gate="1" x="106.68" y="15.24" smashed="yes">
 <attribute name="VALUE" x="104.14" y="12.7" size="1.778" layer="96"/>
 </instance>
-<instance part="J4" gate="G$1" x="167.64" y="30.48" smashed="yes" rot="R180">
+<instance part="J2" gate="G$1" x="167.64" y="30.48" smashed="yes" rot="R180">
 <attribute name="NAME" x="167.64" y="24.892" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="157.48" y="38.1" size="1.778" layer="96"/>
 <attribute name="LCSC" x="167.64" y="30.48" size="1.778" layer="96" rot="R180" display="off"/>
@@ -12878,7 +12878,7 @@ stereo cables. Does not work w/ mono cables</text>
 <instance part="GND35" gate="1" x="152.4" y="38.1" smashed="yes" rot="R180">
 <attribute name="VALUE" x="154.94" y="40.64" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="R24" gate="G$1" x="144.78" y="93.98" smashed="yes">
+<instance part="R23" gate="G$1" x="144.78" y="93.98" smashed="yes">
 <attribute name="NAME" x="145.542" y="97.3074" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="146.558" y="92.456" size="1.778" layer="96" rot="R180"/>
 </instance>
@@ -12889,7 +12889,7 @@ stereo cables. Does not work w/ mono cables</text>
 <instance part="GND18" gate="1" x="152.4" y="99.06" smashed="yes" rot="MR180">
 <attribute name="VALUE" x="149.86" y="101.6" size="1.778" layer="96" rot="MR180"/>
 </instance>
-<instance part="R25" gate="G$1" x="139.7" y="88.9" smashed="yes">
+<instance part="R24" gate="G$1" x="139.7" y="88.9" smashed="yes">
 <attribute name="NAME" x="140.462" y="92.2274" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="141.478" y="87.376" size="1.778" layer="96" rot="R180"/>
 </instance>
@@ -13345,7 +13345,7 @@ stereo cables. Does not work w/ mono cables</text>
 </segment>
 <segment>
 <pinref part="GND28" gate="1" pin="GND"/>
-<pinref part="IC2" gate="G$1" pin="GND"/>
+<pinref part="IC1" gate="G$1" pin="GND"/>
 <wire x1="109.22" y1="58.42" x2="106.68" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="106.68" y1="58.42" x2="106.68" y2="53.34" width="0.1524" layer="91"/>
 </segment>
@@ -13355,12 +13355,12 @@ stereo cables. Does not work w/ mono cables</text>
 <wire x1="152.4" y1="66.04" x2="157.48" y2="66.04" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J4" gate="G$1" pin="EARTH"/>
+<pinref part="J2" gate="G$1" pin="EARTH"/>
 <pinref part="GND34" gate="1" pin="GND"/>
 <wire x1="152.4" y1="25.4" x2="157.48" y2="25.4" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J4" gate="G$1" pin="RING2"/>
+<pinref part="J2" gate="G$1" pin="RING2"/>
 <pinref part="GND35" gate="1" pin="GND"/>
 <wire x1="152.4" y1="35.56" x2="157.48" y2="35.56" width="0.1524" layer="91"/>
 </segment>
@@ -13371,7 +13371,7 @@ stereo cables. Does not work w/ mono cables</text>
 </segment>
 <segment>
 <pinref part="GND29" gate="1" pin="GND"/>
-<pinref part="C44" gate="G$1" pin="2"/>
+<pinref part="C21" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="GND31" gate="1" pin="GND"/>
@@ -13383,7 +13383,7 @@ stereo cables. Does not work w/ mono cables</text>
 </segment>
 <segment>
 <pinref part="GND33" gate="1" pin="GND"/>
-<pinref part="C66" gate="G$1" pin="2"/>
+<pinref part="C23" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="LED1" gate="G$1" pin="GND"/>
@@ -13910,11 +13910,11 @@ stereo cables. Does not work w/ mono cables</text>
 <segment>
 <wire x1="109.22" y1="60.96" x2="101.6" y2="60.96" width="0.1524" layer="91"/>
 <label x="96.52" y="61.214" size="1.778" layer="95" rot="MR0"/>
-<pinref part="R30" gate="G$1" pin="2"/>
+<pinref part="R25" gate="G$1" pin="2"/>
 <wire x1="101.6" y1="60.96" x2="86.36" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="63.5" x2="101.6" y2="60.96" width="0.1524" layer="91"/>
 <junction x="101.6" y="60.96"/>
-<pinref part="IC2" gate="G$1" pin="OUT"/>
+<pinref part="IC1" gate="G$1" pin="OUT"/>
 </segment>
 <segment>
 <pinref part="U1" gate="U$1" pin="GP21"/>
@@ -13926,15 +13926,15 @@ stereo cables. Does not work w/ mono cables</text>
 <segment>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
 <wire x1="106.68" y1="63.5" x2="106.68" y2="73.66" width="0.1524" layer="91"/>
-<pinref part="R30" gate="G$1" pin="1"/>
+<pinref part="R25" gate="G$1" pin="1"/>
 <wire x1="106.68" y1="73.66" x2="106.68" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="106.68" y1="81.28" x2="106.68" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="106.68" y1="73.66" x2="101.6" y2="73.66" width="0.1524" layer="91"/>
 <junction x="106.68" y="73.66"/>
-<pinref part="C44" gate="G$1" pin="1"/>
+<pinref part="C21" gate="G$1" pin="1"/>
 <wire x1="106.68" y1="81.28" x2="111.76" y2="81.28" width="0.1524" layer="91"/>
 <junction x="106.68" y="81.28"/>
-<pinref part="IC2" gate="G$1" pin="VCC"/>
+<pinref part="IC1" gate="G$1" pin="VCC"/>
 <wire x1="106.68" y1="63.5" x2="109.22" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 <segment>
@@ -14102,20 +14102,20 @@ stereo cables. Does not work w/ mono cables</text>
 <pinref part="+3V41" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
-<pinref part="R24" gate="G$1" pin="1"/>
+<pinref part="R23" gate="G$1" pin="1"/>
 <wire x1="139.7" y1="93.98" x2="134.62" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="+3V44" gate="G$1" pin="+3V3"/>
 </segment>
 </net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="R29" gate="G$1" pin="1"/>
+<pinref part="R26" gate="G$1" pin="1"/>
 <wire x1="129.54" y1="63.5" x2="132.08" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="132.08" y1="63.5" x2="134.62" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="132.08" y1="63.5" x2="132.08" y2="60.96" width="0.1524" layer="91"/>
 <junction x="132.08" y="63.5"/>
-<pinref part="IC2" gate="G$1" pin="A"/>
-<pinref part="D2" gate="G$1" pin="C"/>
+<pinref part="IC1" gate="G$1" pin="A"/>
+<pinref part="D1" gate="G$1" pin="C"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -14124,9 +14124,9 @@ stereo cables. Does not work w/ mono cables</text>
 <wire x1="132.08" y1="53.34" x2="144.78" y2="53.34" width="0.1524" layer="91"/>
 <wire x1="132.08" y1="55.88" x2="132.08" y2="53.34" width="0.1524" layer="91"/>
 <junction x="132.08" y="53.34"/>
-<pinref part="IC2" gate="G$1" pin="C"/>
+<pinref part="IC1" gate="G$1" pin="C"/>
 <wire x1="129.54" y1="58.42" x2="129.54" y2="53.34" width="0.1524" layer="91"/>
-<pinref part="D2" gate="G$1" pin="A"/>
+<pinref part="D1" gate="G$1" pin="A"/>
 <pinref part="J3" gate="G$1" pin="TIP"/>
 <wire x1="157.48" y1="58.42" x2="144.78" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="144.78" y1="58.42" x2="144.78" y2="53.34" width="0.1524" layer="91"/>
@@ -14134,21 +14134,21 @@ stereo cables. Does not work w/ mono cables</text>
 </net>
 <net name="N$4" class="0">
 <segment>
-<pinref part="R29" gate="G$1" pin="2"/>
+<pinref part="R26" gate="G$1" pin="2"/>
 <pinref part="J3" gate="G$1" pin="RING1"/>
 <wire x1="144.78" y1="63.5" x2="157.48" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="AUDIO_OUT" class="0">
 <segment>
-<pinref part="J4" gate="G$1" pin="RING1"/>
+<pinref part="J2" gate="G$1" pin="RING1"/>
 <wire x1="157.48" y1="27.94" x2="152.4" y2="27.94" width="0.1524" layer="91"/>
 <wire x1="152.4" y1="27.94" x2="152.4" y2="33.02" width="0.1524" layer="91"/>
 <label x="137.16" y="27.94" size="1.778" layer="95"/>
-<pinref part="J4" gate="G$1" pin="TIP"/>
+<pinref part="J2" gate="G$1" pin="TIP"/>
 <wire x1="157.48" y1="33.02" x2="152.4" y2="33.02" width="0.1524" layer="91"/>
 <pinref part="R31" gate="G$1" pin="1"/>
-<pinref part="C55" gate="G$1" pin="2"/>
+<pinref part="C24" gate="G$1" pin="2"/>
 <wire x1="127" y1="27.94" x2="129.54" y2="27.94" width="0.1524" layer="91"/>
 <wire x1="152.4" y1="27.94" x2="129.54" y2="27.94" width="0.1524" layer="91"/>
 <junction x="152.4" y="27.94"/>
@@ -14157,13 +14157,13 @@ stereo cables. Does not work w/ mono cables</text>
 </net>
 <net name="N$5" class="0">
 <segment>
-<pinref part="C55" gate="G$1" pin="1"/>
+<pinref part="C24" gate="G$1" pin="1"/>
 <pinref part="R32" gate="G$1" pin="2"/>
 <wire x1="119.38" y1="27.94" x2="114.3" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="R33" gate="G$1" pin="1"/>
 <wire x1="114.3" y1="27.94" x2="106.68" y2="27.94" width="0.1524" layer="91"/>
 <junction x="114.3" y="27.94"/>
-<pinref part="C66" gate="G$1" pin="1"/>
+<pinref part="C23" gate="G$1" pin="1"/>
 <wire x1="106.68" y1="27.94" x2="104.14" y2="27.94" width="0.1524" layer="91"/>
 <wire x1="106.68" y1="27.94" x2="106.68" y2="25.4" width="0.1524" layer="91"/>
 <junction x="106.68" y="27.94"/>
@@ -14183,7 +14183,7 @@ stereo cables. Does not work w/ mono cables</text>
 </net>
 <net name="N$6" class="0">
 <segment>
-<pinref part="R24" gate="G$1" pin="2"/>
+<pinref part="R23" gate="G$1" pin="2"/>
 <pinref part="J1" gate="G$1" pin="RING1"/>
 <wire x1="149.86" y1="93.98" x2="157.48" y2="93.98" width="0.1524" layer="91"/>
 </segment>
@@ -14191,7 +14191,7 @@ stereo cables. Does not work w/ mono cables</text>
 <net name="N$2" class="0">
 <segment>
 <pinref part="J1" gate="G$1" pin="TIP"/>
-<pinref part="R25" gate="G$1" pin="2"/>
+<pinref part="R24" gate="G$1" pin="2"/>
 <wire x1="157.48" y1="88.9" x2="144.78" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -14318,7 +14318,7 @@ stereo cables. Does not work w/ mono cables</text>
 </net>
 <net name="MIDI_OUT" class="0">
 <segment>
-<pinref part="R25" gate="G$1" pin="1"/>
+<pinref part="R24" gate="G$1" pin="1"/>
 <wire x1="134.62" y1="88.9" x2="124.46" y2="88.9" width="0.1524" layer="91"/>
 <label x="121.92" y="88.9" size="1.778" layer="95"/>
 </segment>
