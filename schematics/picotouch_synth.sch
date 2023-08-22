@@ -12570,6 +12570,7 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <part name="TP22" library="todstuff" library_urn="urn:adsk.eagle:library:1731349" deviceset="TOUCHPAD" device="B" package3d_urn="urn:adsk.eagle:package:35535445/3"/>
 <part name="R22" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="1M"/>
 <part name="GND25" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
+<part name="+3V42" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -13252,6 +13253,9 @@ stereo cables. Does not work w/ mono cables</text>
 </instance>
 <instance part="GND25" gate="1" x="5.08" y="-124.46" smashed="yes">
 <attribute name="VALUE" x="2.54" y="-127" size="1.778" layer="96"/>
+</instance>
+<instance part="+3V42" gate="G$1" x="25.4" y="78.74" smashed="yes" rot="R270">
+<attribute name="VALUE" x="25.4" y="79.756" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -14105,6 +14109,11 @@ stereo cables. Does not work w/ mono cables</text>
 <pinref part="R23" gate="G$1" pin="1"/>
 <wire x1="139.7" y1="93.98" x2="134.62" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="+3V44" gate="G$1" pin="+3V3"/>
+</segment>
+<segment>
+<pinref part="U1" gate="U$1" pin="3V3(OUT)"/>
+<wire x1="12.7" y1="78.74" x2="22.86" y2="78.74" width="0.1524" layer="91"/>
+<pinref part="+3V42" gate="G$1" pin="+3V3"/>
 </segment>
 </net>
 <net name="N$1" class="0">
