@@ -8,7 +8,7 @@ from adafruit_debouncer import Debouncer, Button
 
 SAMPLE_RATE=28000
 
-num_leds = 19
+num_leds = 20
 neopixel_pin = board.GP26
 pwm_audio_pin = board.GP22
 uart_rx_pin = board.GP21
