@@ -1,6 +1,6 @@
-#
-#
-#
+# picotouch_synth.py -- hardware definitions and functions for picotouch_synth
+# 1 Sep 2023 - @todbot / Tod Kurt
+# Part of https://github.com/todbot/picotouch_synth
 #
 import time
 import board, busio, digitalio

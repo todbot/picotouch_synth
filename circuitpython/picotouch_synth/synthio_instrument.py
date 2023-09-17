@@ -1,3 +1,6 @@
+# synthio_instrumnt.py -- synth abstractions for synthio
+# 1 Sep 2023 - @todbot / Tod Kurt
+# Part of https://github.com/todbot/picotouch_synth
 
 import time
 import synthio
