@@ -2,7 +2,7 @@
 
 Thin captouch-based synth platform for Raspberry Pi Pico
 
-<img width=500 src="./docs/picotouch_synth_render1.jpg"/>
+<img width=500 src="./docs/picotouch_synth_flip_case_render1.jpg"/>
 
 Features:
 * PWM Audio out
@@ -13,5 +13,5 @@ Features:
 * 22 touch pads (17 notes, 5 modifiers)
 
 
-<img width=500 src="./docs/picotouch_synth_toprender_blk.png"/>
-<img width=500 src="./docs/picotouch_synth_botrender_blk.png"/>
+<img width=600 src="./docs/picotouch_synth_flip_render_top.png"/>
+<img width=600 src="./docs/picotouch_synth_flip_render_bot.png"/>
