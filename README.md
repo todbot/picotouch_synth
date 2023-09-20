@@ -15,3 +15,8 @@ Features:
 
 <img width=600 src="./docs/picotouch_synth_flip_render_top.png"/>
 <img width=600 src="./docs/picotouch_synth_flip_render_bot.png"/>
+
+
+## Sketching in Hardware 2023 Edition
+
+<img width=700 src="./docs/picotouch_synth_ui_sketching2023.png"/>
