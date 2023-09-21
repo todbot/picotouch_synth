@@ -12316,6 +12316,61 @@ by exp-lbrs.ulp</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="frames" urn="urn:adsk.eagle:library:229">
+<description>&lt;b&gt;Frames for Sheet and Layout&lt;/b&gt;</description>
+<packages>
+</packages>
+<symbols>
+<symbol name="FRAME_B_L" urn="urn:adsk.eagle:symbol:13883/1" library_version="1">
+<frame x1="0" y1="0" x2="431.8" y2="279.4" columns="9" rows="6" layer="94" border-bottom="no"/>
+</symbol>
+<symbol name="DOCFIELD" urn="urn:adsk.eagle:symbol:13864/1" library_version="1">
+<wire x1="0" y1="0" x2="71.12" y2="0" width="0.1016" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="87.63" y2="15.24" width="0.1016" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="5.08" width="0.1016" layer="94"/>
+<wire x1="0" y1="5.08" x2="71.12" y2="5.08" width="0.1016" layer="94"/>
+<wire x1="0" y1="5.08" x2="0" y2="15.24" width="0.1016" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="101.6" y2="5.08" width="0.1016" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="71.12" y2="0" width="0.1016" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="87.63" y2="5.08" width="0.1016" layer="94"/>
+<wire x1="71.12" y1="0" x2="101.6" y2="0" width="0.1016" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="87.63" y2="5.08" width="0.1016" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="0" y2="15.24" width="0.1016" layer="94"/>
+<wire x1="87.63" y1="5.08" x2="101.6" y2="5.08" width="0.1016" layer="94"/>
+<wire x1="101.6" y1="5.08" x2="101.6" y2="0" width="0.1016" layer="94"/>
+<wire x1="0" y1="15.24" x2="0" y2="22.86" width="0.1016" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="0" y2="35.56" width="0.1016" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="101.6" y2="22.86" width="0.1016" layer="94"/>
+<wire x1="0" y1="22.86" x2="101.6" y2="22.86" width="0.1016" layer="94"/>
+<wire x1="0" y1="22.86" x2="0" y2="35.56" width="0.1016" layer="94"/>
+<wire x1="101.6" y1="22.86" x2="101.6" y2="15.24" width="0.1016" layer="94"/>
+<text x="1.27" y="1.27" size="2.54" layer="94">Date:</text>
+<text x="12.7" y="1.27" size="2.54" layer="94">&gt;LAST_DATE_TIME</text>
+<text x="72.39" y="1.27" size="2.54" layer="94">Sheet:</text>
+<text x="86.36" y="1.27" size="2.54" layer="94">&gt;SHEET</text>
+<text x="88.9" y="11.43" size="2.54" layer="94">REV:</text>
+<text x="1.27" y="19.05" size="2.54" layer="94">TITLE:</text>
+<text x="1.27" y="11.43" size="2.54" layer="94">Document Number:</text>
+<text x="17.78" y="19.05" size="2.54" layer="94">&gt;DRAWING_NAME</text>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="FRAME_B_L" urn="urn:adsk.eagle:component:13938/1" prefix="FRAME" uservalue="yes" library_version="1">
+<description>&lt;b&gt;FRAME&lt;/b&gt; B Size , 11 x 17 INCH, Landscape&lt;p&gt;</description>
+<gates>
+<gate name="G$1" symbol="FRAME_B_L" x="0" y="0" addlevel="always"/>
+<gate name="G$2" symbol="DOCFIELD" x="325.12" y="0" addlevel="always"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -12548,6 +12603,7 @@ by exp-lbrs.ulp</description>
 <part name="LED18" library="Adafruit MacroPad 2040" deviceset="MICROBUILDER_WS2812B" device="_SK6812E" package3d_urn="urn:adsk.eagle:package:38294363/2"/>
 <part name="LED19" library="Adafruit MacroPad 2040" deviceset="MICROBUILDER_WS2812B" device="_SK6812E" package3d_urn="urn:adsk.eagle:package:38294363/2"/>
 <part name="LED20" library="Adafruit MacroPad 2040" deviceset="MICROBUILDER_WS2812B" device="_SK6812E" package3d_urn="urn:adsk.eagle:package:38294363/2"/>
+<part name="FRAME1" library="frames" library_urn="urn:adsk.eagle:library:229" deviceset="FRAME_B_L" device="" value="F1"/>
 </parts>
 <sheets>
 <sheet>
@@ -12566,6 +12622,8 @@ stereo cables. Does not work w/ mono cables</text>
 <text x="172.466" y="93.98" size="1.778" layer="97" rot="MR180">RING1</text>
 <text x="172.466" y="97.536" size="1.778" layer="97" rot="MR180">GND</text>
 <text x="172.466" y="91.186" size="1.778" layer="97" rot="MR180">TIP</text>
+<text x="218.44" y="-139.7" size="2.54" layer="94">github.com/todbot/picotouch_synth</text>
+<text x="284.48" y="-139.7" size="2.54" layer="94">Tod Kurt Sep 2023</text>
 </plain>
 <instances>
 <instance part="U1" gate="U$1" x="-5.08" y="48.26" smashed="yes">
@@ -13124,69 +13182,69 @@ stereo cables. Does not work w/ mono cables</text>
 <instance part="GND64" gate="1" x="259.08" y="-66.04" smashed="yes">
 <attribute name="VALUE" x="256.54" y="-68.58" size="1.778" layer="96"/>
 </instance>
-<instance part="GND65" gate="1" x="297.18" y="-88.9" smashed="yes">
-<attribute name="VALUE" x="294.64" y="-91.44" size="1.778" layer="96"/>
+<instance part="GND65" gate="1" x="93.98" y="-137.16" smashed="yes">
+<attribute name="VALUE" x="91.44" y="-139.7" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V34" gate="G$1" x="302.26" y="-58.42" smashed="yes">
-<attribute name="VALUE" x="301.244" y="-58.42" size="1.778" layer="96" rot="R90"/>
+<instance part="+3V34" gate="G$1" x="99.06" y="-106.68" smashed="yes">
+<attribute name="VALUE" x="98.044" y="-106.68" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="C17" gate="G$1" x="284.48" y="-58.42" smashed="yes" rot="MR0">
-<attribute name="NAME" x="290.576" y="-58.039" size="1.778" layer="95" rot="MR0"/>
-<attribute name="VALUE" x="290.576" y="-63.119" size="1.778" layer="96" rot="MR0"/>
+<instance part="C17" gate="G$1" x="81.28" y="-104.14" smashed="yes" rot="MR0">
+<attribute name="NAME" x="87.376" y="-103.759" size="1.778" layer="95" rot="MR0"/>
+<attribute name="VALUE" x="87.376" y="-108.839" size="1.778" layer="96" rot="MR0"/>
 </instance>
-<instance part="GND66" gate="1" x="284.48" y="-66.04" smashed="yes">
-<attribute name="VALUE" x="281.94" y="-68.58" size="1.778" layer="96"/>
+<instance part="GND66" gate="1" x="81.28" y="-111.76" smashed="yes">
+<attribute name="VALUE" x="78.74" y="-114.3" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V35" gate="G$1" x="284.48" y="-53.34" smashed="yes">
-<attribute name="VALUE" x="283.464" y="-53.34" size="1.778" layer="96" rot="R90"/>
+<instance part="+3V35" gate="G$1" x="81.28" y="-99.06" smashed="yes">
+<attribute name="VALUE" x="80.264" y="-99.06" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="GND67" gate="1" x="322.58" y="-88.9" smashed="yes">
-<attribute name="VALUE" x="320.04" y="-91.44" size="1.778" layer="96"/>
+<instance part="GND67" gate="1" x="119.38" y="-137.16" smashed="yes">
+<attribute name="VALUE" x="116.84" y="-139.7" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V36" gate="G$1" x="327.66" y="-58.42" smashed="yes">
-<attribute name="VALUE" x="326.644" y="-58.42" size="1.778" layer="96" rot="R90"/>
+<instance part="+3V36" gate="G$1" x="124.46" y="-106.68" smashed="yes">
+<attribute name="VALUE" x="123.444" y="-106.68" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="C18" gate="G$1" x="314.96" y="-58.42" smashed="yes" rot="MR0">
-<attribute name="NAME" x="321.056" y="-58.039" size="1.778" layer="95" rot="MR0"/>
-<attribute name="VALUE" x="321.056" y="-63.119" size="1.778" layer="96" rot="MR0"/>
+<instance part="C18" gate="G$1" x="106.68" y="-106.68" smashed="yes" rot="MR0">
+<attribute name="NAME" x="112.776" y="-106.299" size="1.778" layer="95" rot="MR0"/>
+<attribute name="VALUE" x="112.776" y="-111.379" size="1.778" layer="96" rot="MR0"/>
 </instance>
-<instance part="GND68" gate="1" x="314.96" y="-66.04" smashed="yes">
-<attribute name="VALUE" x="312.42" y="-68.58" size="1.778" layer="96"/>
+<instance part="GND68" gate="1" x="106.68" y="-114.3" smashed="yes">
+<attribute name="VALUE" x="104.14" y="-116.84" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V37" gate="G$1" x="314.96" y="-53.34" smashed="yes">
-<attribute name="VALUE" x="313.944" y="-53.34" size="1.778" layer="96" rot="R90"/>
+<instance part="+3V37" gate="G$1" x="106.68" y="-101.6" smashed="yes">
+<attribute name="VALUE" x="105.664" y="-101.6" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="GND69" gate="1" x="347.98" y="-88.9" smashed="yes">
-<attribute name="VALUE" x="345.44" y="-91.44" size="1.778" layer="96"/>
+<instance part="GND69" gate="1" x="144.78" y="-137.16" smashed="yes">
+<attribute name="VALUE" x="142.24" y="-139.7" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V38" gate="G$1" x="353.06" y="-58.42" smashed="yes">
-<attribute name="VALUE" x="352.044" y="-58.42" size="1.778" layer="96" rot="R90"/>
+<instance part="+3V38" gate="G$1" x="149.86" y="-106.68" smashed="yes">
+<attribute name="VALUE" x="148.844" y="-106.68" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="C19" gate="G$1" x="340.36" y="-58.42" smashed="yes" rot="MR0">
-<attribute name="NAME" x="346.456" y="-58.039" size="1.778" layer="95" rot="MR0"/>
-<attribute name="VALUE" x="346.456" y="-63.119" size="1.778" layer="96" rot="MR0"/>
+<instance part="C19" gate="G$1" x="132.08" y="-106.68" smashed="yes" rot="MR0">
+<attribute name="NAME" x="138.176" y="-106.299" size="1.778" layer="95" rot="MR0"/>
+<attribute name="VALUE" x="138.176" y="-111.379" size="1.778" layer="96" rot="MR0"/>
 </instance>
-<instance part="GND70" gate="1" x="340.36" y="-66.04" smashed="yes">
-<attribute name="VALUE" x="337.82" y="-68.58" size="1.778" layer="96"/>
+<instance part="GND70" gate="1" x="132.08" y="-114.3" smashed="yes">
+<attribute name="VALUE" x="129.54" y="-116.84" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V39" gate="G$1" x="340.36" y="-53.34" smashed="yes">
-<attribute name="VALUE" x="339.344" y="-53.34" size="1.778" layer="96" rot="R90"/>
+<instance part="+3V39" gate="G$1" x="132.08" y="-101.6" smashed="yes">
+<attribute name="VALUE" x="131.064" y="-101.6" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="GND71" gate="1" x="373.38" y="-88.9" smashed="yes">
-<attribute name="VALUE" x="370.84" y="-91.44" size="1.778" layer="96"/>
+<instance part="GND71" gate="1" x="170.18" y="-137.16" smashed="yes">
+<attribute name="VALUE" x="167.64" y="-139.7" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V40" gate="G$1" x="378.46" y="-58.42" smashed="yes">
-<attribute name="VALUE" x="377.444" y="-58.42" size="1.778" layer="96" rot="R90"/>
+<instance part="+3V40" gate="G$1" x="175.26" y="-106.68" smashed="yes">
+<attribute name="VALUE" x="174.244" y="-106.68" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="C20" gate="G$1" x="365.76" y="-58.42" smashed="yes" rot="MR0">
-<attribute name="NAME" x="371.856" y="-58.039" size="1.778" layer="95" rot="MR0"/>
-<attribute name="VALUE" x="371.856" y="-63.119" size="1.778" layer="96" rot="MR0"/>
+<instance part="C20" gate="G$1" x="157.48" y="-106.68" smashed="yes" rot="MR0">
+<attribute name="NAME" x="163.576" y="-106.299" size="1.778" layer="95" rot="MR0"/>
+<attribute name="VALUE" x="163.576" y="-111.379" size="1.778" layer="96" rot="MR0"/>
 </instance>
-<instance part="GND72" gate="1" x="365.76" y="-66.04" smashed="yes">
-<attribute name="VALUE" x="363.22" y="-68.58" size="1.778" layer="96"/>
+<instance part="GND72" gate="1" x="157.48" y="-114.3" smashed="yes">
+<attribute name="VALUE" x="154.94" y="-116.84" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V41" gate="G$1" x="365.76" y="-53.34" smashed="yes">
-<attribute name="VALUE" x="364.744" y="-53.34" size="1.778" layer="96" rot="R90"/>
+<instance part="+3V41" gate="G$1" x="157.48" y="-101.6" smashed="yes">
+<attribute name="VALUE" x="156.464" y="-101.6" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="+3V44" gate="G$1" x="132.08" y="93.98" smashed="yes" rot="R90">
 <attribute name="VALUE" x="132.08" y="92.964" size="1.778" layer="96" rot="R180"/>
@@ -13230,10 +13288,16 @@ stereo cables. Does not work w/ mono cables</text>
 <instance part="LED14" gate="G$1" x="220.98" y="-76.2" smashed="yes"/>
 <instance part="LED15" gate="G$1" x="246.38" y="-76.2" smashed="yes"/>
 <instance part="LED16" gate="G$1" x="271.78" y="-76.2" smashed="yes"/>
-<instance part="LED17" gate="G$1" x="297.18" y="-76.2" smashed="yes"/>
-<instance part="LED18" gate="G$1" x="322.58" y="-76.2" smashed="yes"/>
-<instance part="LED19" gate="G$1" x="347.98" y="-76.2" smashed="yes"/>
-<instance part="LED20" gate="G$1" x="373.38" y="-76.2" smashed="yes"/>
+<instance part="LED17" gate="G$1" x="93.98" y="-124.46" smashed="yes"/>
+<instance part="LED18" gate="G$1" x="119.38" y="-124.46" smashed="yes"/>
+<instance part="LED19" gate="G$1" x="144.78" y="-124.46" smashed="yes"/>
+<instance part="LED20" gate="G$1" x="170.18" y="-124.46" smashed="yes"/>
+<instance part="FRAME1" gate="G$1" x="-109.22" y="-165.1" smashed="yes"/>
+<instance part="FRAME1" gate="G$2" x="215.9" y="-165.1" smashed="yes">
+<attribute name="LAST_DATE_TIME" x="228.6" y="-163.83" size="2.54" layer="94"/>
+<attribute name="SHEET" x="302.26" y="-163.83" size="2.54" layer="94"/>
+<attribute name="DRAWING_NAME" x="233.68" y="-146.05" size="2.54" layer="94"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -14289,6 +14353,10 @@ stereo cables. Does not work w/ mono cables</text>
 <segment>
 <pinref part="LED16" gate="G$1" pin="DO"/>
 <pinref part="LED17" gate="G$1" pin="DI"/>
+<wire x1="81.28" y1="-127" x2="68.58" y2="-127" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="-127" x2="68.58" y2="-93.98" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="-93.98" x2="284.48" y2="-93.98" width="0.1524" layer="91"/>
+<wire x1="284.48" y1="-93.98" x2="284.48" y2="-78.74" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$23" class="0">
@@ -14337,10 +14405,10 @@ stereo cables. Does not work w/ mono cables</text>
 <approved hash="104,1,226.06,-60.96,LED14,VDD,+3V3,,,"/>
 <approved hash="104,1,251.46,-60.96,LED15,VDD,+3V3,,,"/>
 <approved hash="104,1,276.86,-60.96,LED16,VDD,+3V3,,,"/>
-<approved hash="104,1,302.26,-60.96,LED17,VDD,+3V3,,,"/>
-<approved hash="104,1,327.66,-60.96,LED18,VDD,+3V3,,,"/>
-<approved hash="104,1,353.06,-60.96,LED19,VDD,+3V3,,,"/>
-<approved hash="104,1,378.46,-60.96,LED20,VDD,+3V3,,,"/>
+<approved hash="104,1,99.06,-109.22,LED17,VDD,+3V3,,,"/>
+<approved hash="104,1,124.46,-109.22,LED18,VDD,+3V3,,,"/>
+<approved hash="104,1,149.86,-109.22,LED19,VDD,+3V3,,,"/>
+<approved hash="104,1,175.26,-109.22,LED20,VDD,+3V3,,,"/>
 <approved hash="106,1,12.7,83.82,VBUS,,,,,"/>
 </errors>
 </schematic>
