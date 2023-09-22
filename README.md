@@ -11,6 +11,8 @@ Features:
 * 19 RGB LEDs
 * 22 touch pads (17 notes, 5 modifiers)
 * Completely flat surface (only reverse-mount LEDs, capsense pads)
+* 6 mm thick when in [minimal enclosure](https://github.com/todbot/picotouch_synth/tree/main/enclosure)
+   (255 x 42 x 6 mm volume)
 
 <img width=600 src="./docs/picotouch_synth_flip_render_top.png"/>
 <img width=600 src="./docs/picotouch_synth_flip_render_bot.png"/>
