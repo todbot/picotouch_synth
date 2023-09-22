@@ -1,6 +1,9 @@
 # ignore for tod sanity
 circuitpython/old
 schematics/old
+# build products for fab
+*.zip
+*.csv
 
 # Ignore list for Eagle, a PCB layout tool
 
