@@ -5,11 +5,13 @@ Thin captouch-based synth platform for Raspberry Pi Pico
 <img width=500 src="./docs/picotouch_synth_flip_case_render1.jpg"/>
 
 Features:
+* Raspberry Pi Pico
 * PWM Audio out
 * TRS-A MIDI In / Out
 * USB MIDI In/Out
 * 19 RGB LEDs
 * 22 touch pads (17 notes, 5 modifiers)
+* Low part count: 15 BOM line items, mostly passives
 * Completely flat surface (only reverse-mount LEDs, capsense pads)
 * 6 mm thick when in [minimal enclosure](https://github.com/todbot/picotouch_synth/tree/main/enclosure)
    (255 x 42 x 6 mm volume)
