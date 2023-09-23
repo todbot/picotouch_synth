@@ -11,7 +11,7 @@ Features:
 * USB MIDI In/Out
 * 19 RGB LEDs
 * 22 touch pads (17 notes, 5 modifiers)
-* Low part count: 15 BOM line items, mostly passives
+* Low part count: [15 BOM line items, mostly passives](./schematics/picotouch_synth_flip_bottom_bom.csv)
 * Completely flat surface (only reverse-mount LEDs, capsense pads)
 * 6 mm thick when in [minimal enclosure](https://github.com/todbot/picotouch_synth/tree/main/enclosure)
    (255 x 42 x 6 mm volume)
