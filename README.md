@@ -32,7 +32,7 @@ and download the UF2 you want.  Then, to install:
 * Unclip PCB from case (if in a case)
 * Hold BOOT button on Pico while plugging back into USB
 * Copy the UF2 file to the RPI-RP2 drive
-* When board is reflashed, it will reboot
+* When board finishes reflashing, it will reboot
 
 __Note:__ if your Pico has more than the 2 MB standard flash
 (like the purple USB-C 16 MB Pico clones), the UF2s will still work but the

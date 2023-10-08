@@ -7,15 +7,11 @@ import board, busio, digitalio
 import audiomixer, synthio, audiopwmio
 import neopixel
 import touchio
-import touchpio
 import keypad  # to use KeypadEvent
 from adafruit_debouncer import Button
 import adafruit_fancyled.adafruit_fancyled as fancy
 
 from synthio_instrument import map_range, lerp
-
-SAMPLE_RATE=28000
-touch_threshold_adjust = 300
 
 # pin definitions
 
@@ -40,14 +36,14 @@ touch_pins = (board.GP0, board.GP1, board.GP2, board.GP3, board.GP4, board.GP5,
 #                    board.GP27, board.GP28)
 # touch_pins = touch_key_pins + touch_mod_pins
 
-bot_keys = (0,2,4,5,7,9,11,12,14,16)
-top_keys = (1,3,  6,8,10,  13,15)  #
-mode_keys = (17,18,19, 20,21)  # A, B, C, X, Y
+bot_pads = (0,2,4,5,7,9,11,12,14,16)
+top_pads = (1,3,  6,8,10,  13,15)  #
+mode_pads = (17,18,19, 20,21)  # A, B, C, X, Y
 
 
 class PicoTouchSynthHardware():
-    def __init__(self, sample_rate=SAMPLE_RATE, buffer_size=2048, touch_adjust_threshold=300):
-        self.leds= neopixel.NeoPixel(neopixel_pin, num_leds, brightness=0.2)
+    def __init__(self, sample_rate=28000, num_voices=1, buffer_size=2048, touch_threshold_adjust=300):
+        self.leds= neopixel.NeoPixel(neopixel_pin, num_leds, brightness=0.2, auto_write=False)
         self.uart = busio.UART(rx=uart_rx_pin, tx=uart_tx_pin, baudrate=31250, timeout=0.001)
 
         # make power supply less noisy on real Picos
@@ -56,7 +52,6 @@ class PicoTouchSynthHardware():
 
         self.touch_ins = []  # for debug
         self.touch_pads = []
-        #self.touch_cache = []
         for pin in touch_pins:
             touchin = touchio.TouchIn(pin)
             touchin.threshold += touch_threshold_adjust
@@ -64,30 +59,46 @@ class PicoTouchSynthHardware():
             self.touch_ins.append(touchin)  # for debug
             #self.touch_cache.append(touchin.raw_value)
         self.num_touch_pads = len(self.touch_pads)
+        self.synth_voicenum = num_voices-1
         self.audio = audiopwmio.PWMAudioOut(pwm_audio_pin)
-        self.mixer = audiomixer.Mixer(voice_count=1, sample_rate=sample_rate,
+        self.mixer = audiomixer.Mixer(voice_count=num_voices, sample_rate=sample_rate,
                                       channel_count=1, bits_per_sample=16,
                                       samples_signed=True, buffer_size=buffer_size )
         self.audio.play(self.mixer)
-        self.synth = synthio.Synthesizer(sample_rate=SAMPLE_RATE)
-        self.mixer.voice[0].level = 0.75 # turn down the volume a bit since this can get loud
-        self.mixer.voice[0].play(self.synth)
+        self.synth = synthio.Synthesizer(sample_rate=sample_rate)
+        self.mixer.voice[self.synth_voicenum].level = 0.75 # turn down the volume a bit since this can get loud
+        self.mixer.voice[self.synth_voicenum].play(self.synth)
 
     def set_synth_volume(self,v):
-        self.mixer.voice[0].level = v
+        self.mixer.voice[self.synth_voicenum].level = v
 
     def fade_leds(self,fade_by=5):
         # FIXME: use np
         self.leds[:] = [[max(i-fade_by,0) for i in l] for l in self.leds]
 
-    def is_bottom_note_key(self,i):
-        return i in bot_keys
+    def is_bottom_pad(self,i):
+        return i in bot_pads
 
-    def is_top_key(self,i):
-        return i in top_keys
+    def bottom_pad_to_trig_num(self,padnum):
+        try:
+            return bot_pads.index(padnum)
+        except ValueError:
+            return None
 
-    def is_mode_key(self,i):
-        return i in mode_keys
+    def trig_num_to_pad_num(self,trig_num):
+        return bot_pads[trig_num]
+
+    def bottom_pad_to_keynum(self,i):
+        try:
+            return bot_pads.index(i)
+        except ValueError:
+            return None
+
+    def is_top_pad(self,i):
+        return i in top_pads
+
+    def is_mode_pad(self,i):
+        return i in mode_pads
 
     def leds_control_left(self, v, hue=0.05):
         color1 = fancy.CHSV( hue, 0.98, 0.25 * 1-v)

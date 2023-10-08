@@ -118,7 +118,7 @@ class Wavetable:
         """Sample size of each wave in the table"""
         self.size = size
         self.w = adafruit_wave.open(filepath)
-        print("hi wavetable")
+        print("hi wavetable", filepath)
         if self.w.getsampwidth() != 2 or self.w.getnchannels() != 1:
             raise ValueError("unsupported WAV format")
         self.wav = None
@@ -371,9 +371,10 @@ class WavePolyTwoOsc(Instrument):
 
             if self.patch.filt_type == FiltType.LP:
                 if self.patch.filt_env_params.attack_time > 0:
-                    filt_mod = max(0, 0.5 * 8000 * (filt_env.value/2))  # 8k/2 = max freq, 0.5 = filtermod amt
+                    filt_mod = max(0, 0.5 * 4000 * (filt_env.value/2))  # 8k/2 = max freq, 0.5 = filtermod amt
                     filt_f = self.patch.filt_f + filt_mod
                     filt = self.synth.low_pass_filter( filt_f,filt_q )
+                    #print("filt:",filt_mod, filt_f)
 
             elif self.patch.filt_type == FiltType.HP:
                     filt_mod = max(0, 0.5 * 8000 * (filt_env.value/2))  # 8k/2 = max freq, 0.5 = filtermod amt
