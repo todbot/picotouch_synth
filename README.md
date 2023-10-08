@@ -53,7 +53,7 @@ and install the code files by hand.
 
 ## Sketching in Hardware 2023 Edition
 
-For Sketching in Hardware conference, the firmware shipped on the boards is in
+For the Sketching in Hardware conference, the firmware shipped on the boards is in
 [circuitpython/picotouch_synth](https://github.com/todbot/picotouch_synth/tree/main/circuitpython/picotouch_synth)
 and the pre-built UF2 firwmare in the [Releases section](https://github.com/todbot/picotouch_synth/releases/tag/v1).
 
@@ -66,8 +66,12 @@ you'll need to
 [install CircuitPython](https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpython#for-rp2040-boards-3105171)
 and the code files by hand.
 
+<img src="./docs/picotouch_synth_photo2.jpg" width=700 />
+
+### The picotouch_synth application
 
 The keyboard is laid out as top row is modulators (three groups of "sliders")
 and the bottom row plays notes in a particular scale.
+The A/B/C buttons select different sounds and the X/Y buttons on the right transpose up/down octaves.
 
 <img width=700 src="./docs/picotouch_synth_ui_sketching2023.png"/>
