@@ -35,7 +35,7 @@ go to the [Releases](https://github.com/todbot/picotouch_synth/releases) page
 and download the UF2 you want.  Then, to install:
 
 * Unplug picotouch_synth PCB board from USB
-* Unclip PCB from case (if in a case)
+* Unclip PCB from case ([see this video on releasing the case](https://youtu.be/MjScFP873SQ))
 * Hold BOOT button on Pico while plugging back into USB
 * Copy the UF2 file to the RPI-RP2 drive
 * When board finishes reflashing, it will reboot
