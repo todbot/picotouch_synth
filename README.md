@@ -47,7 +47,7 @@ To get the flash space back, you will need to [install CircuitPython]()
 and install the app
 
 
-<img src="./docs/picotouch_synth_photo1.jpg" width=600 />
+<img src="./docs/picotouch_synth_photo1.jpg" width=700 />
 
 
 ## Sketching in Hardware 2023 Edition
