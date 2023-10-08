@@ -84,11 +84,11 @@ held_pads = [False] * hw.num_touch_pads
 #pad_states = [False] * num_pads  #
 
 def note_on(midi_note, vel=100):
-    pad_num = midi_note - base_note
+    pad_num = (midi_note - base_note) % num_trig_pads
     dm.play_drum( pad_num )
 
 def note_off(midi_note, vel=0):
-    pad_num = midi_note - base_note
+    pad_num = (midi_note - base_note) % num_trig_pads
     dm.stop_drum( pad_num )
 
 def note_off_all():
@@ -150,14 +150,12 @@ async def touch_updater():
 async def led_updater():
     fade_by = 5
     while True:
-        # show sample status for key pads
+
         for i in range(num_pads):
             if held_pads[i]:  # key pressed
                 hw.leds[i] = 0x222222
             else:
-                #pad_num = hw.trig_num_to_pad_num(i)
-                #hw.leds[i] = hw.leds[17] if dm.drum_fnames[i] else 0x080000
-                hw.leds[i] = hw.leds[17] # if dm.drum_fnames[i] else 0x080000
+                hw.leds[i] = hw.leds[17] if hw.is_bottom_pad(i) else 0
 
         # octave up/down leds
         if base_note == 24:  # FIXME, center point is midi note 24
