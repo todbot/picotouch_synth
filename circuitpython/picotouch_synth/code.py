@@ -47,11 +47,11 @@ patchA.amp_env_params.attack_time = 0.01
 patchA.amp_env_params.release_time = 0.5
 
 patchC = Patch('mixC')
+patchC.wave_type = WaveType.WTB
+patchC.wave = 'PLAITS03'  # 'MICROW02' 'BRAIDS04'
+patchC.filt_type = FiltType.LP
+patchC.filt_q = 1.5
 patchC.detune=1.02
-patchA.wave_type = WaveType.WTB
-patchA.wave = 'PLAITS02'  # 'MICROW02' 'BRAIDS04'
-patchC.filt_type = FiltType.BP
-patchC.filt_q = 0.5
 patchC.filt_env_params.attack_time = 0.5
 patchC.filt_env_params.attack_level = 0.8
 patchC.amp_env_params.release_time = 1.0
