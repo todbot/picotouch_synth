@@ -43,8 +43,9 @@ and download the UF2 you want.  Then, to install:
 __Note:__ if your Pico has more than the 2 MB standard flash
 (like the [purple "RetroScaler" 16MB USB-C ones](https://www.aliexpress.us/item/3256804731684211.html)),
 the UF2s will still work but the resulting CIRCUITPY drive only be 1 MB.
-To get the flash space back, you will need to [install CircuitPython]()
-and install the app
+To get the flash space back, you will need to
+[install CircuitPython](https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpython#for-rp2040-boards-3105171)
+and install the code files by hand.
 
 
 <img src="./docs/picotouch_synth_photo1.jpg" width=700 />
@@ -55,6 +56,16 @@ and install the app
 For Sketching in Hardware conference, the firmware shipped on the boards is in
 [circuitpython/picotouch_synth](https://github.com/todbot/picotouch_synth/tree/main/circuitpython/picotouch_synth)
 and the pre-built UF2 firwmare in the [Releases section](https://github.com/todbot/picotouch_synth/releases/tag/v1).
+
+There were two different boards handed out:
+- [micro-USB green Raspberry Pi Picos w/ 2 MB flash](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html)
+- [USB-C purple "RetroScaler" Pico clones w/ 16 MB flash](https://www.aliexpress.us/item/3256804731684211.html).
+
+Both are formated as 2MB devices so if you have a purple board and want the extra flash space,
+you'll need to
+[install CircuitPython](https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpython#for-rp2040-boards-3105171)
+and the code files by hand.
+
 
 The keyboard is laid out as top row is modulators (three groups of "sliders")
 and the bottom row plays notes in a particular scale.
