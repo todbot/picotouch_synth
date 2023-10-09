@@ -32,7 +32,7 @@ for latest versions as prebuilt UF2 images.
   ([video demo](https://www.youtube.com/watch?v=OaN6xVYXhNE))
 - [hwtest](./circuitpython/hwtest/) -- simple hardware test of the board
 
-### Prebuilt UF2 images
+### Installing prebuilt UF2 images
 
 Instead of installing CircuitPython, then installling needed libraries,
 and finally installing the code you want, you can just copy a UF2 file to the RPI-RP2 bootloader drive!
