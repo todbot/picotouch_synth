@@ -22,16 +22,23 @@ Features:
 
 ## Installing firmware
 
-There are currently three "applications" for the picotouch_synth board:
+There are currently three "applications" for the picotouch_synth board, all are in active development,
+so check the [Release page](https://github.com/todbot/picotouch_synth/releases)
+for latest versions as prebuilt UF2 images.
 
 - [picotouch_synth](./circuitpython/picotouch_synth) -- a wavetable synth with three different patches
-- [pts_drum_machine](./circuitpython/pts_drum_machine) -- a drum sample player (in progress)
+  ([video demo](https://www.youtube.com/watch?v=0FgqWdkIjWM))
+- [pts_drum_machine](./circuitpython/pts_drum_machine) -- a drum sample player
+  ([video demo](https://www.youtube.com/watch?v=OaN6xVYXhNE))
 - [hwtest](./circuitpython/hwtest/) -- simple hardware test of the board
 
 ### Prebuilt UF2 images
 
-If you want to install pre-built firmware for picotouch_synth,
-go to the [Releases](https://github.com/todbot/picotouch_synth/releases) page
+Instead of installing CircuitPython, then installling needed libraries,
+and finally installing the code you want, you can just copy a UF2 file to the RPI-RP2 bootloader drive!
+
+As a rule, all firmware will be offered as pre-built firmware UF2 images for picotouch_synth.
+Go to the [Releases](https://github.com/todbot/picotouch_synth/releases) page
 and download the UF2 you want.  Then, to install:
 
 * Unplug picotouch_synth PCB board from USB
