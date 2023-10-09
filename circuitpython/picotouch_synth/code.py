@@ -41,17 +41,19 @@ patchA.amp_env_params.release_time = 0.5
 patchA.filt_env_params.attack_time = 1.5
 
 patchB = Patch('sawB')
+patchB.wave_type = WaveType.OSC
+patchB.detune=0.501
 patchB.filt_q = 1.8
-patchB.waveB = 'square'
-patchA.amp_env_params.attack_time = 0.01
-patchA.amp_env_params.release_time = 0.5
+patchB.waveB = 'SIN'
+patchB.amp_env_params.attack_time = 0.1
+patchB.amp_env_params.release_time = 0.5
+patchB.filt_env_params.attack_time = 1.5
 
 patchC = Patch('mixC')
 patchC.wave_type = WaveType.WTB
-patchC.wave = 'PLAITS03'  # 'MICROW02' 'BRAIDS04'
+patchC.wave = 'PLAITS01'  # 'MICROW02' 'BRAIDS04'
 patchC.filt_type = FiltType.LP
 patchC.filt_q = 1.5
-patchC.detune=1.02
 patchC.filt_env_params.attack_time = 0.5
 patchC.filt_env_params.attack_level = 0.8
 patchC.amp_env_params.release_time = 1.0
