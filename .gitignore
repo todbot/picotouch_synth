@@ -4,6 +4,7 @@ schematics/old
 # build products for fab
 *.zip
 *.csv
+.uf2
 
 # Ignore list for Eagle, a PCB layout tool
 
