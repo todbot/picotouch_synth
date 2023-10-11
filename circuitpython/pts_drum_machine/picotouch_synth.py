@@ -8,7 +8,6 @@ import audiomixer, synthio, audiopwmio
 import neopixel
 import touchio
 import keypad  # to use KeypadEvent
-from adafruit_debouncer import Button
 import adafruit_fancyled.adafruit_fancyled as fancy
 
 from synthio_instrument import map_range, lerp
@@ -28,17 +27,9 @@ touch_pins = (board.GP0, board.GP1, board.GP2, board.GP3, board.GP4, board.GP5,
               board.GP17, board.GP18, board.GP19,
               board.GP27, board.GP28)
 
-#touch_ctrl_pins = (board.GP1, board.GP3, board.GP6, board.GP8, board.GP10, board.GP13, board.GP15)
-# touch_key_pins = (board.GP0, board.GP2, board.GP4, board.GP5,
-#                   board.GP7, board.GP9, board.GP11,
-#                   board.GP14, board.GP16)
-# touch_mod_pins = ( board.GP17, board.GP18, board.GP19,
-#                    board.GP27, board.GP28)
-# touch_pins = touch_key_pins + touch_mod_pins
-
-bot_pads = (0,2,4,5,7,9,11,12,14,16)
-top_pads = (1,3,  6,8,10,  13,15)  #
-mode_pads = (17,18,19, 20,21)  # A, B, C, X, Y
+top_pads = (1,3,  6,8,10,  13,15)     # "black" keys
+bot_pads = (0,2,4,5,7,9,11,12,14,16)  # "white" keys
+mode_pads = (17,18,19, 20,21)         # A, B, C, X, Y
 
 
 class PicoTouchSynthHardware():
@@ -51,14 +42,13 @@ class PicoTouchSynthHardware():
         self.pwr_mode.switch_to_output(value=True)
 
         self.touch_ins = []  # for debug
-        self.touch_pads = []
         for pin in touch_pins:
             touchin = touchio.TouchIn(pin)
             touchin.threshold += touch_threshold_adjust
-            self.touch_pads.append( Button(touchin, value_when_pressed=True))
-            self.touch_ins.append(touchin)  # for debug
-            #self.touch_cache.append(touchin.raw_value)
-        self.num_touch_pads = len(self.touch_pads)
+            self.touch_ins.append(touchin)
+        self.num_touch_pads = len(self.touch_ins)
+        self.last_touch_vals = [t.value for t in self.touch_ins]  # get initial value
+
         self.synth_voicenum = num_voices-1
         self.audio = audiopwmio.PWMAudioOut(pwm_audio_pin)
         self.mixer = audiomixer.Mixer(voice_count=num_voices, sample_rate=sample_rate,
@@ -120,16 +110,20 @@ class PicoTouchSynthHardware():
         self.leds[13] = color1.pack()
         self.leds[15] = color2.pack()
 
+    # using Debouncer instead of Button: 15 millis vs 24 millis
+    # using DIY debouncer instead of Debouncer: 9 millis vs 15 millis
+    # using PIO on 7 pads: 8 millis vs 9 millis
     def check_touch(self):
         events = []
         st = time.monotonic()
         for i in range(self.num_touch_pads):
-            touch = self.touch_pads[i]
-            touch.update()
-            if touch.pressed:
+            touch_val = self.touch_ins[i].value
+            last_touch_val = self.last_touch_vals[i]
+            if touch_val and not last_touch_val:
                 events.append(keypad.Event(i,True))
-            elif touch.released:
+            if not touch_val and last_touch_val:
                 events.append(keypad.Event(i,False))
+            self.last_touch_vals[i] = touch_val
         #print("check_touch:",int((time.monotonic()-st)*1000))
         return events
 
