@@ -12,6 +12,7 @@ from adafruit_midi.note_on import NoteOn
 from adafruit_midi.note_off import NoteOff
 
 from synthio_instrument import WavePolyTwoOsc, Patch
+
 from picotouch_synth import PicoTouchSynthHardware
 
 base_note = 24

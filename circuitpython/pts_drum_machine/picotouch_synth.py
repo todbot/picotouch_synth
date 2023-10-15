@@ -7,6 +7,7 @@ import board, busio, digitalio
 import audiomixer, synthio, audiopwmio
 import neopixel
 import touchio
+#import touchpio
 import keypad  # so we can use keypad.Event for check_touch()
 import adafruit_fancyled.adafruit_fancyled as fancy
 
@@ -21,19 +22,28 @@ uart_rx_pin = board.GP21
 uart_tx_pin = board.GP20
 pico_pwr_pin = board.GP23  # HIGH = improved ripple (lower noise) but less efficient
 
-touch_pins = (board.GP0, board.GP1, board.GP2, board.GP3, board.GP4, board.GP5,
-              board.GP6, board.GP7 ,board.GP8, board.GP9, board.GP10, board.GP11,
-              board.GP12, board.GP13, board.GP14, board.GP15, board.GP16,
-              board.GP17, board.GP18, board.GP19,
+touch_pins = (board.GP0, board.GP1, board.GP2, board.GP3,
+              board.GP4, board.GP5, board.GP6, board.GP7,
+              board.GP8, board.GP9, board.GP10, board.GP11,
+              board.GP12, board.GP13, board.GP14, board.GP15,
+              board.GP16, board.GP17, board.GP18, board.GP19,
               board.GP27, board.GP28)
 
 top_pads = (1,3,  6,8,10,  13,15)     # "black" keys
 bot_pads = (0,2,4,5,7,9,11,12,14,16)  # "white" keys
 mode_pads = (17,18,19, 20,21)         # A, B, C, X, Y keys
 
+debug_timing = False
+
+if debug_timing:
+    # for checking how long check_touch() takes
+    key_times = [0] * 50
+    key_time_i = 0
+    key_time_max = 1000
+    key_time_min = 0
 
 class PicoTouchSynthHardware():
-    def __init__(self, sample_rate=28000, num_voices=1, buffer_size=2048, touch_threshold_adjust=300):
+    def __init__(self, sample_rate=28000, num_voices=1, buffer_size=2048, touch_threshold_adjust=400):
         self.leds= neopixel.NeoPixel(neopixel_pin, num_leds, brightness=0.2, auto_write=False)
         self.uart = busio.UART(rx=uart_rx_pin, tx=uart_tx_pin, baudrate=31250, timeout=0.001)
 
@@ -43,6 +53,9 @@ class PicoTouchSynthHardware():
 
         self.touch_ins = []  # for debug
         for pin in touch_pins:
+            #if pin in top_pads:
+            #    touchin = touchpio.TouchIn(pin)
+            #else:
             touchin = touchio.TouchIn(pin)
             touchin.threshold += touch_threshold_adjust
             self.touch_ins.append(touchin)
@@ -111,17 +124,21 @@ class PicoTouchSynthHardware():
         self.leds[15] = color2.pack()
 
 
-    # using Debouncer instead of Button: 15 millis vs 24 millis
-    # using DIY debouncer instead of Debouncer: 9 millis vs 15 millis
+    # using Debouncer instead of Button: 15 millis vs 24 millis (no keys pressed)
+    # using DIY debouncer instead of Debouncer: 9 millis vs 15 millis (no keys pressed)
     # using PIO on 7 pads: 8 millis vs 9 millis
+    # pressing keys adds about 0.4 msec per key in touchio (thus 30 msecs max if all keys pressed)
     def check_touch(self):
         """
         Check all capsense pads and generate KeyEvents if pressed or released.
-        Must be called frequently.  Takes about 9 milliseconds.
-        :return list of press or release events since last check_touch()
+        Must be called frequently.  Takes about 9 millisecs with no keys pressed,
+        for reading 22 touch pads, giving us a natural debounce timer.
+        :return list of press or release Events since last check_touch()
         """
+        if debug_timing:
+            st = time.monotonic()  # timing
+
         events = []
-        #st = time.monotonic()  # timing
         for i in range(self.num_touch_pads):
             touch_val = self.touch_ins[i].value
             last_touch_val = self.last_touch_vals[i]
@@ -131,11 +148,21 @@ class PicoTouchSynthHardware():
                 events.append(keypad.Event(i,False))
             self.last_touch_vals[i] = touch_val  # save state for next time
 
-        #print("check_touch:",int((time.monotonic()-st)*1000))  # timing
+        if debug_timing:
+            global key_time_max, key_time_min, key_time_i
+            dt = int((time.monotonic()-st)*1000)  # timing
+            key_times[ key_time_i ] = dt
+            key_time_i = (key_time_i+1) % 50
+            key_time_max = min(key_time_max, dt)
+            key_time_min = max(key_time_min, dt)
+            key_time_avg = sum(key_times) / 50
+            print("check_touch: %2d %2d %2d %.1f" % (dt, key_time_max, key_time_min, key_time_avg) )
+
         return events
 
     def check_touch_hold(self, hold_func):
+        """Call callback for any key currently being held"""
         for i in range(self.num_touch_pads):
-            if self.touch_ins[i].value:  # pressed
-                v = self.touchins[i].raw_value - self.touchins[i].threshold
-                hold_func(i, v)
+            if self.touch_ins[i].value:  # is pressed
+                hold_pressure = self.touchins[i].raw_value - self.touchins[i].threshold
+                hold_func(i, hold_pressure)
