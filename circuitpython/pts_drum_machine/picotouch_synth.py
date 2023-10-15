@@ -7,7 +7,7 @@ import board, busio, digitalio
 import audiomixer, synthio, audiopwmio
 import neopixel
 import touchio
-import keypad  # to use KeypadEvent
+import keypad  # so we can use keypad.Event for check_touch()
 import adafruit_fancyled.adafruit_fancyled as fancy
 
 from synthio_instrument import map_range, lerp
@@ -29,7 +29,7 @@ touch_pins = (board.GP0, board.GP1, board.GP2, board.GP3, board.GP4, board.GP5,
 
 top_pads = (1,3,  6,8,10,  13,15)     # "black" keys
 bot_pads = (0,2,4,5,7,9,11,12,14,16)  # "white" keys
-mode_pads = (17,18,19, 20,21)         # A, B, C, X, Y
+mode_pads = (17,18,19, 20,21)         # A, B, C, X, Y keys
 
 
 class PicoTouchSynthHardware():
@@ -110,21 +110,28 @@ class PicoTouchSynthHardware():
         self.leds[13] = color1.pack()
         self.leds[15] = color2.pack()
 
+
     # using Debouncer instead of Button: 15 millis vs 24 millis
     # using DIY debouncer instead of Debouncer: 9 millis vs 15 millis
     # using PIO on 7 pads: 8 millis vs 9 millis
     def check_touch(self):
+        """
+        Check all capsense pads and generate KeyEvents if pressed or released.
+        Must be called frequently.  Takes about 9 milliseconds.
+        :return list of press or release events since last check_touch()
+        """
         events = []
-        st = time.monotonic()
+        #st = time.monotonic()  # timing
         for i in range(self.num_touch_pads):
             touch_val = self.touch_ins[i].value
             last_touch_val = self.last_touch_vals[i]
-            if touch_val and not last_touch_val:
+            if touch_val and not last_touch_val:  # pressed
                 events.append(keypad.Event(i,True))
-            if not touch_val and last_touch_val:
+            if not touch_val and last_touch_val:  # released
                 events.append(keypad.Event(i,False))
-            self.last_touch_vals[i] = touch_val
-        #print("check_touch:",int((time.monotonic()-st)*1000))
+            self.last_touch_vals[i] = touch_val  # save state for next time
+
+        #print("check_touch:",int((time.monotonic()-st)*1000))  # timing
         return events
 
     def check_touch_hold(self, hold_func):
